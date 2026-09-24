@@ -10,6 +10,26 @@ Supabase project: `sojnqelvouqkkkckwbmj` — https://sojnqelvouqkkkckwbmj.supaba
 
 ---
 
+## 0. Public website (thebeconsultingsolution.com) → Cloudflare Pages
+
+The site lives in this repo's `deploy/` folder. It was tested on Cloudflare's local server on 2026-09-24: all pages, direct page links, mobile layout, contact-form checks and rate limit passed.
+
+- [ ] Cloudflare → **Workers & Pages → Create → Pages → Connect to Git** → pick `the-beconsultingsolutions.com`
+  - Production branch: `claude/deployment-setup-checklist-f544xv` (switch to `main` later if you create one)
+  - Framework preset: **None** · Build command: *(leave empty)* · Build output directory: `.` · **Root directory: `deploy`**
+- [ ] Project → **Settings → Variables and Secrets** (Production): add `RESEND_API_KEY` as a *Secret*
+      (`TO_EMAIL`, `FROM_EMAIL`, `ALLOWED_ORIGINS` already come from `deploy/wrangler.toml`)
+- [ ] Project → **Settings → Bindings → KV namespace**: name `RATE_LIMIT` → `becs-contact-rate-limit` (if not picked up automatically)
+- [ ] Open the `*.pages.dev` address and click through the site
+- [ ] Cloudflare → **Add a domain** → `thebeconsultingsolution.com` → Free plan → review imported DNS records:
+  - keep every **MX** and **TXT** record (email)
+  - keep the **`app`** record (BE University on Netlify) and set it to **DNS only (grey cloud)**
+- [ ] GoDaddy → domain → **Nameservers → I'll use my own** → paste Cloudflare's two nameservers
+- [ ] After the "site active" email: Pages project → **Custom domains** → add `thebeconsultingsolution.com` and `www.thebeconsultingsolution.com`
+- [ ] Add Resend's DNS records in Cloudflare, then send a test message from `/contact`
+- [ ] Check `https://app.thebeconsultingsolution.com` still loads
+- [ ] Delete the old Netlify `besolutions` project
+
 ## 1. Upload the package and connect Netlify
 
 - [ ] Put the updated `deploy/` folder into the `beconsultingsolutions-cloud/becs-os` repo on GitHub

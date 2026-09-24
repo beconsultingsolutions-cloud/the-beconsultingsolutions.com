@@ -1,0 +1,14 @@
+name = "becs-website"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-01"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "1405e9e386f54c7ab8651d238ad0d842"
+
+[vars]
+TO_EMAIL = "beconsultingsolutions@gmail.com"
+FROM_EMAIL = "BECS Website <hello@thebeconsultingsolution.com>"
+ALLOWED_ORIGINS = "https://thebeconsultingsolution.com,https://www.thebeconsultingsolution.com"
+# Secrets — set with: npx wrangler pages secret put RESEND_API_KEY
+#                      npx wrangler pages secret put TURNSTILE_SECRET
