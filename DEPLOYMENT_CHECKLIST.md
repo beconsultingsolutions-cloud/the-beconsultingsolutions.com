@@ -13,14 +13,19 @@ Supabase project: `sojnqelvouqkkkckwbmj` — https://sojnqelvouqkkkckwbmj.supaba
 ## 1. Upload the package and connect Netlify
 
 - [ ] Put the updated `deploy/` folder into the `beconsultingsolutions-cloud/becs-os` repo on GitHub
-- [ ] In Netlify: **Add new site → Import an existing project → GitHub → becs-os**
-- [ ] Write down the Netlify address it gives you (e.g. `https://<name>.netlify.app`). You need it in steps 4 and 5.
+- [x] New Netlify project created: **`becs-os`** → https://becs-os.netlify.app (site ID `de37c79e-7734-4219-80a6-04cb5504007c`)
+- [ ] Link it to GitHub: Netlify → becs-os → **Project configuration → Build & deploy → Link repository → GitHub → becs-os**
+      (build settings come from the repo's `netlify.toml`: `npm ci && npm run build:client`, publish `dist/public`)
+- [ ] Confirm the first deploy is green, then delete the old project
 
-Netlify address: `______________________________`
+Netlify address: `https://becs-os.netlify.app`
+
+> The becs-os repo on GitHub today is the **static app only**. It has no `/api/...` functions, so
+> `/api/webhooks/square` won't answer until the updated `deploy/` package (with its functions) is in the repo.
 
 ## 2. Database password for `console_api`
 
-Status on 2026-09-24: the `console_api` role exists in Supabase but **cannot log in yet** (`rolcanlogin = false`).
+Status on 2026-09-24 (checked twice): the `console_api` role exists in Supabase but **cannot log in yet** (`rolcanlogin = false`).
 This step fixes that.
 
 - [ ] Make a long random password (a password manager can generate one; 32+ characters, letters and numbers only)
@@ -58,7 +63,7 @@ Netlify → Site → **Site configuration → Environment variables**. The full 
 
 ## 5. Square and Resend
 
-- [ ] Square Developer Dashboard → Webhooks: point the webhook at `https://<your-netlify-address>/api/webhooks/square`
+- [ ] Square Developer Dashboard → Webhooks: point the webhook at `https://becs-os.netlify.app/api/webhooks/square`
 - [ ] Put the Square webhook signature key into Netlify if README step 4 lists it
 - [ ] Resend: _this step was cut off in the original instructions. Fill it in from the deploy README
       (usually: verify your sending domain and add its DNS records)._
