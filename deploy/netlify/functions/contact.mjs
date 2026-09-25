@@ -24,7 +24,7 @@ export default async (request, context) => {
 
   const allowed = (env('ALLOWED_ORIGINS') || 'https://thebeconsultingsolution.com,https://www.thebeconsultingsolution.com').split(',').map(s => s.trim());
   const origin = request.headers.get('Origin') || '';
-  if (!allowed.includes(origin)) return json(403, { ok: false, error: 'forbidden' });
+  if (!allowed.includes(origin)) { console.warn('contact: blocked origin', origin || '(none)'); return json(403, { ok: false, error: 'forbidden' }); }
   if (!(request.headers.get('Content-Type') || '').includes('application/json')) return json(415, { ok: false, error: 'unsupported' });
 
   const raw = await request.text();
@@ -71,13 +71,20 @@ export default async (request, context) => {
     `Submitted ${new Date().toISOString()} · IP ${ip}`
   ].filter(x => x != null).join('\n');
 
-  if (!env('RESEND_API_KEY') || !env('TO_EMAIL') || !env('FROM_EMAIL')) return json(500, { ok: false, error: 'not_configured' });
+  if (!env('RESEND_API_KEY') || !env('TO_EMAIL') || !env('FROM_EMAIL')) {
+    console.error('contact: missing env', ['RESEND_API_KEY', 'TO_EMAIL', 'FROM_EMAIL'].filter(k => !env(k)).join(', '));
+    return json(500, { ok: false, error: 'not_configured' });
+  }
   const sent = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${env('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ from: env('FROM_EMAIL'), to: [env('TO_EMAIL')], reply_to: d.email, subject: `Website inquiry · ${d.interest} · ${d.name}`.slice(0, 150), text })
   });
-  if (!sent.ok) return json(502, { ok: false, error: 'send_failed' });
+  if (!sent.ok) {
+    // Resend's error body names the reason (e.g. unverified domain, restricted key); it never contains the key.
+    console.error('contact: resend rejected', sent.status, (await sent.text().catch(() => '')).slice(0, 500));
+    return json(502, { ok: false, error: 'send_failed' });
+  }
 
   if (env('CRM_WEBHOOK_URL')) {
     await fetch(env('CRM_WEBHOOK_URL'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...d, source: 'website', submitted_at: new Date().toISOString() }) }).catch(() => {});
