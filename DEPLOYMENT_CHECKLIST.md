@@ -24,18 +24,21 @@ Done by Claude:
 - [x] Env vars set: `TO_EMAIL`, `FROM_EMAIL`, `ALLOWED_ORIGINS`
 
 Your steps:
-- [ ] Netlify → becs-website → **Project configuration → Build & deploy → Link repository** → GitHub → `the-beconsultingsolutions.com`
+- [x] Netlify → becs-website → **Project configuration → Build & deploy → Link repository** → GitHub → `the-beconsultingsolutions.com`
   - Branch: `claude/deployment-setup-checklist-f544xv` · **Base directory: `deploy`** · leave the rest (it comes from `deploy/netlify.toml`)
-- [ ] Environment variables → add `RESEND_API_KEY` (mark it secret)
-- [ ] Open https://becs-website.netlify.app and click through. On this test address the form opens your email app
+- [x] Environment variables → add `RESEND_API_KEY` (mark it secret, Production only)
+- [x] Open https://becs-website.netlify.app and click through. On this test address the form opens your email app
       instead of sending, and direct page links go to home. That's by design: both switch on only on the real domain.
-- [ ] Domain switch (quick, same Netlify account):
+- [x] Domain switch (2026-09-25). DNS was on GoDaddy pointing at Lovable (185.158.133.1); changed `@` A → 75.2.60.5 and `www` → CNAME becs-website.netlify.app:
   1. besolutions → Domain management → remove `thebeconsultingsolution.com` and `www`
   2. becs-website → Domain management → add `thebeconsultingsolution.com` (and `www`)
   3. Check the site, a direct link like `/services`, and send a test message from `/contact`
-  - To roll back: swap the domain back to `besolutions`
+  - To roll back: GoDaddy `@` A and `www` A back to 185.158.133.1 (old Lovable site)
+- [x] New site loads on the domain, direct links like `/services` work
+- [ ] Contact form sends a test email (needs a redeploy after adding `RESEND_API_KEY`)
 - [ ] Resend: verify `thebeconsultingsolution.com` and add its DNS records where your DNS lives
-- [ ] Check `https://app.thebeconsultingsolution.com` still loads
+- [ ] `hub.thebeconsultingsolution.com` (Lovable) is down; DNS for it unchanged. Next assignment.
+- [ ] `app.thebeconsultingsolution.com` has no DNS record; add CNAME `app` → `be-university.netlify.app` if needed
 - [ ] After a few good days: delete the old `besolutions` project
 
 ## 1. Upload the package and connect Netlify
