@@ -10,25 +10,33 @@ Supabase project: `sojnqelvouqkkkckwbmj` — https://sojnqelvouqkkkckwbmj.supaba
 
 ---
 
-## 0. Public website (thebeconsultingsolution.com) → Cloudflare Pages
+## 0. Public website (thebeconsultingsolution.com) → Netlify
 
-The site lives in this repo's `deploy/` folder. It was tested on Cloudflare's local server on 2026-09-24: all pages, direct page links, mobile layout, contact-form checks and rate limit passed.
+Decision 2026-09-25: stay on Netlify. The domain already lives there, so no nameserver/DNS move is needed
+and email + `app.thebeconsultingsolution.com` are not touched. (Cloudflare files are kept in `deploy/` as a fallback.)
 
-- [ ] Cloudflare → **Workers & Pages → Create → Pages → Connect to Git** → pick `the-beconsultingsolutions.com`
-  - Production branch: `claude/deployment-setup-checklist-f544xv` (switch to `main` later if you create one)
-  - Framework preset: **None** · Build command: *(leave empty)* · Build output directory: `.` · **Root directory: `deploy`**
-- [ ] Project → **Settings → Variables and Secrets** (Production): add `RESEND_API_KEY` as a *Secret*
-      (`TO_EMAIL`, `FROM_EMAIL`, `ALLOWED_ORIGINS` already come from `deploy/wrangler.toml`)
-- [ ] Project → **Settings → Bindings → KV namespace**: name `RATE_LIMIT` → `becs-contact-rate-limit` (if not picked up automatically)
-- [ ] Open the `*.pages.dev` address and click through the site
-- [ ] Cloudflare → **Add a domain** → `thebeconsultingsolution.com` → Free plan → review imported DNS records:
-  - keep every **MX** and **TXT** record (email)
-  - keep the **`app`** record (BE University on Netlify) and set it to **DNS only (grey cloud)**
-- [ ] GoDaddy → domain → **Nameservers → I'll use my own** → paste Cloudflare's two nameservers
-- [ ] After the "site active" email: Pages project → **Custom domains** → add `thebeconsultingsolution.com` and `www.thebeconsultingsolution.com`
-- [ ] Add Resend's DNS records in Cloudflare, then send a test message from `/contact`
+The site is this repo's `deploy/` folder. The contact form runs as a Netlify Function (`deploy/netlify/functions/contact.mjs`).
+Tested 2026-09-25: origin check, validation, honeypot and 5/hour rate limit all pass.
+
+Done by Claude:
+- [x] Netlify project **`becs-website`** created → https://app.netlify.com/projects/becs-website (site ID `c62002b3-1775-4158-bafe-4ca8914f8543`)
+- [x] Visitor access: public in production, team login only on previews (same as `becs-os`)
+- [x] Env vars set: `TO_EMAIL`, `FROM_EMAIL`, `ALLOWED_ORIGINS`
+
+Your steps:
+- [ ] Netlify → becs-website → **Project configuration → Build & deploy → Link repository** → GitHub → `the-beconsultingsolutions.com`
+  - Branch: `claude/deployment-setup-checklist-f544xv` · **Base directory: `deploy`** · leave the rest (it comes from `deploy/netlify.toml`)
+- [ ] Environment variables → add `RESEND_API_KEY` (mark it secret)
+- [ ] Open https://becs-website.netlify.app and click through. On this test address the form opens your email app
+      instead of sending, and direct page links go to home. That's by design: both switch on only on the real domain.
+- [ ] Domain switch (quick, same Netlify account):
+  1. besolutions → Domain management → remove `thebeconsultingsolution.com` and `www`
+  2. becs-website → Domain management → add `thebeconsultingsolution.com` (and `www`)
+  3. Check the site, a direct link like `/services`, and send a test message from `/contact`
+  - To roll back: swap the domain back to `besolutions`
+- [ ] Resend: verify `thebeconsultingsolution.com` and add its DNS records where your DNS lives
 - [ ] Check `https://app.thebeconsultingsolution.com` still loads
-- [ ] Delete the old Netlify `besolutions` project
+- [ ] After a few good days: delete the old `besolutions` project
 
 ## 1. Upload the package and connect Netlify
 
