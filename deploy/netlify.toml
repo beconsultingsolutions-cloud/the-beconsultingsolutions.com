@@ -1,18 +1,20 @@
-# Netlify config for the public website. Set the project's Base directory to `deploy`.
-# (wrangler.toml + functions/ are the Cloudflare Pages equivalent and are not used on Netlify.)
 [build]
   publish = "."
-  command = "echo 'static site, no build'"
+  functions = "netlify/functions"
 
 [functions]
-  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
-# Keep config and source files out of the public site.
-[[redirects]]
-  from = "/functions/*"
-  to = "/404"
-  status = 404
-  force = true
+# Environment variables (Site configuration → Environment variables):
+#   RESEND_API_KEY     required
+#   TO_EMAIL           beconsultingsolutions@gmail.com
+#   FROM_EMAIL         BECS Website <hello@thebeconsultingsolution.com>
+#   ALLOWED_ORIGINS    https://thebeconsultingsolution.com,https://www.thebeconsultingsolution.com
+#   AGREEMENT_LIVE     false  (set "true" only after legal review)
+#   AGREEMENT_VERSION  draft-0.1
+#   CRM_WEBHOOK_URL    optional
+
+# Keep source and config files out of the public site.
 [[redirects]]
   from = "/netlify/*"
   to = "/404"
@@ -20,11 +22,6 @@
   force = true
 [[redirects]]
   from = "/node_modules/*"
-  to = "/404"
-  status = 404
-  force = true
-[[redirects]]
-  from = "/wrangler.toml"
   to = "/404"
   status = 404
   force = true

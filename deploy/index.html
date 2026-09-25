@@ -231,6 +231,7 @@
                 <p style="margin: 0; font-family: var(--font-display); font-size: 3rem; line-height: 1; color: var(--brand-purple);">{{ t.price }}</p>
                 <p style="margin: 0; font-size: 0.9375rem; color: var(--muted-foreground); flex: 1; text-wrap: pretty;">{{ t.d }}</p>
                 <p class="becs-label" style="margin: 0;">{{ t.phases }}</p>
+                <p style="margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--foreground); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem; padding-top: 0.625rem; border-top: 1px solid var(--border);"><span aria-hidden="true" style="flex: none; width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--brand-lime); align-self: center;"></span><span>{{ t.compPre }}</span><sc-if value="{{ t.compLinkOn }}" hint-placeholder-val="{{ false }}"><a href="/compliance-standard" onClick="{{ goCompLink }}" style="color: var(--brand-purple); text-decoration: underline; text-underline-offset: 2px;">compliance status</a></sc-if><span>{{ t.compPost }}</span></p>
                 <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="{{ t.btn }}" on-click="{{ t.go }}" hint-size="100%,36px">Talk it through</x-import>
               </div>
             </sc-for>
@@ -302,6 +303,7 @@
               <span class="becs-rule" style="margin-top: 0.75rem;"></span>
               <p style="margin: 1rem 0 0; font-size: 1rem; text-wrap: pretty;">{{ t.long }}</p>
               <p class="becs-label" style="margin-top: 1.25rem;">{{ t.phases }}</p>
+              <p style="margin: 1rem 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--foreground); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem; padding-top: 0.625rem; border-top: 1px solid var(--border);"><span aria-hidden="true" style="flex: none; width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--brand-lime); align-self: center;"></span><span>{{ t.compPre }}</span><sc-if value="{{ t.compLinkOn }}" hint-placeholder-val="{{ false }}"><a href="/compliance-standard" onClick="{{ goCompLink }}" style="color: var(--brand-purple); text-decoration: underline; text-underline-offset: 2px;">compliance status</a></sc-if><span>{{ t.compPost }}</span></p>
             </div>
             <div style="padding: 2rem; background: var(--brand-cream); display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem;">
               <div>
@@ -375,6 +377,7 @@
           </div>
         </sc-if>
         <p style="margin: 2rem 0 0; padding: 1rem 1.25rem; border: 1px dashed var(--border); border-radius: var(--radius-md); font-size: 0.875rem; color: var(--muted-foreground); max-width: 42rem;">Prices are starting points. Monthly items are billed alongside a SUCCEED partnership.</p>
+        <p style="margin: 0.75rem 0 0; font-size: 0.875rem; max-width: 42rem;">Setup and build items require Green or Yellow <a href="/compliance-standard" onClick="{{ goCompLink }}" style="color: var(--brand-purple); text-decoration: underline; text-underline-offset: 2px;">compliance status</a>.</p>
       </section>
     </sc-if>
 
@@ -424,6 +427,12 @@
               </li>
             </sc-for>
           </ol>
+          <div data-reveal="0" class="becs-card" style="margin-top: 2rem; padding: 1.5rem;">
+            <p class="becs-label" style="margin: 0;">Included · Compliance Snapshot</p>
+            <h3 class="heading-3" style="margin: 0.375rem 0 0; font-size: 1.5rem;">Ten questions, one status.</h3>
+            <p style="margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--muted-foreground); text-wrap: pretty;">After you book, you get a short link with ten questions on your entity, EIN, banking, licenses, insurance, legal pages, sales tax and trademark. Brand new or not yet registered? That's fine. You leave the session with a Green, Yellow or Red status and a dated path to Green.</p>
+            <a href="/compliance-standard" onClick="{{ goCompLink }}" style="display: inline-block; margin-top: 0.75rem; font-size: 0.875rem; font-weight: 600; color: var(--brand-purple);">See the BECS Compliance Readiness Standard →</a>
+          </div>
         </div>
         <aside data-reveal="150" class="becs-card becs-card-lift" style="overflow: hidden; position: sticky; top: 6rem;">
           <img src="assets/img/business-review-with-notes-and-laptops.jpg" alt="Two people reviewing handwritten notes beside laptops during a business review" loading="lazy" decoding="async" style="display: block; width: 100%; object-fit: cover; aspect-ratio: 16 / 9; background-color: var(--brand-cream);">
@@ -830,6 +839,208 @@
       </section>
     </sc-if>
 
+    <!-- ============ COMPLIANCE STANDARD ============ -->
+    <sc-if value="{{ isCompliance }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="Compliance what we verify" style="max-width: 72rem; margin: 0 auto; padding: clamp(3.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2rem);">
+        <div data-reveal="0">
+          <x-import component-from-global-scope="BECSDesignSystem_24a107.SectionShell" eyebrow="The baseline" title="What we verify" intro="Eight items, checked for every client before any build begins." hint-size="100%,140px"></x-import>
+        </div>
+        <div style="margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem;">
+          <sc-for list="{{ compItems }}" as="c" hint-placeholder-count="8">
+            <div data-reveal="{{ c.delay }}" class="becs-card" style="padding: 1.5rem; display: grid; align-content: start; gap: 0.5rem; transition: box-shadow .25s, transform .25s;" style-hover="box-shadow: var(--shadow-lift); transform: translateY(-3px);">
+              <p style="margin: 0; font-family: var(--font-display); font-size: 2.25rem; line-height: 1; color: var(--brand-purple);">{{ c.n }}</p>
+              <h3 class="heading-3" style="margin: 0; font-size: 1.375rem;">{{ c.t }}</h3>
+              <p style="margin: 0; font-size: 0.9375rem; color: var(--muted-foreground); text-wrap: pretty;">{{ c.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section data-screen-label="Compliance status" style="background: var(--brand-cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+        <div style="max-width: 72rem; margin: 0 auto; padding: clamp(3.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2rem);">
+          <div data-reveal="0">
+            <x-import component-from-global-scope="BECSDesignSystem_24a107.SectionShell" eyebrow="Your status" title="Green. Yellow. Red." intro="Every client gets one of three statuses. It tells us both where to start." hint-size="100%,140px"></x-import>
+          </div>
+          <div style="margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1rem;">
+            <sc-for list="{{ compStatus }}" as="s" hint-placeholder-count="3">
+              <div data-reveal="{{ s.delay }}" class="becs-card" style="padding: 1.75rem; border-top: 6px solid {{ s.c }}; display: grid; align-content: start; gap: 0.75rem;">
+                <span style="display: inline-flex; align-items: center; gap: 0.5rem; align-self: start; justify-self: start; padding: 0.375rem 0.75rem 0.375rem 0.5rem; border-radius: 999px; border: 1px solid var(--border); background: var(--card);">
+                  <span aria-hidden="true" style="width: 0.875rem; height: 0.875rem; border-radius: 999px; background: {{ s.c }};"></span>
+                  <span style="font-family: var(--font-mono-label); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--foreground);">{{ s.label }}</span>
+                </span>
+                <h3 class="heading-3" style="margin: 0; font-size: 1.5rem;">{{ s.t }}</h3>
+                <p style="margin: 0; font-size: 0.9375rem; text-wrap: pretty;">{{ s.d }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section data-screen-label="Compliance where it shows up" style="max-width: 72rem; margin: 0 auto; padding: clamp(3.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2rem);">
+        <div data-reveal="0">
+          <x-import component-from-global-scope="BECSDesignSystem_24a107.SectionShell" eyebrow="In every engagement" title="Where it shows up" hint-size="100%,110px"></x-import>
+        </div>
+        <div style="margin-top: 2rem; display: grid;">
+          <sc-for list="{{ compWhere }}" as="w" hint-placeholder-count="3">
+            <div data-reveal="{{ w.delay }}" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 0.75rem 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border);">
+              <div>
+                <p class="becs-label" style="margin: 0; color: {{ w.c }};">{{ w.phase }}</p>
+                <h3 class="heading-3" style="margin: 0.25rem 0 0; font-size: 1.5rem;">{{ w.t }}</h3>
+              </div>
+              <p style="margin: 0; font-size: 1rem; text-wrap: pretty;">{{ w.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <div data-reveal="0" style="margin-top: 2rem; padding: 1rem 1.25rem; border: 1px dashed var(--border); border-radius: var(--radius-md); max-width: 46rem;">
+          <p class="becs-label" style="margin: 0;">What we don't do</p>
+          <p style="margin: 0.375rem 0 0; font-size: 0.8125rem; line-height: 1.6; color: var(--muted-foreground); text-wrap: pretty;">BECS verifies that documents exist and tracks deadlines. We do not give legal, tax, or licensing advice, and we do not certify compliance. When we find a gap, we refer you to a licensed attorney or CPA. You remain responsible for your business's compliance.</p>
+        </div>
+        <div data-reveal="0" style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem;">
+          <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" size="lg" on-click="{{ goReality }}" hint-size="250px,40px">Get your Compliance Snapshot</x-import>
+          <span class="becs-caption">Included in every P.E.S. Reality Check · $497</span>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- ============ COMPLIANCE SNAPSHOT ============ -->
+    <sc-if value="{{ isSnapshot }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="Compliance Snapshot" style="max-width: 48rem; margin: 0 auto; padding: clamp(3rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2rem);">
+        <sc-if value="{{ snapNotSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submit }}" noValidate="{{ true }}" aria-label="Compliance Snapshot" style="display: grid; gap: 1.25rem;">
+            <div style="padding: 1rem 1.25rem; border-radius: var(--radius-md); background: var(--tint-purple-10); font-size: 0.9375rem; text-wrap: pretty;">This isn't a test. Most new businesses have a few gaps, and that's exactly what the Reality Check is for. Answer what you know; "Not sure" is fine.</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1rem;">
+              <label class="becs-field">
+                <span class="becs-label">Name *</span>
+                <input class="becs-input" autocomplete="name" value="{{ form.name }}" onChange="{{ set.name }}" style="border-color: {{ fb.name }};">
+                <sc-if value="{{ errs.name }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size: 0.8125rem; color: var(--destructive);">{{ errs.name }}</span></sc-if>
+              </label>
+              <label class="becs-field">
+                <span class="becs-label">Email *</span>
+                <input class="becs-input" type="email" autocomplete="email" value="{{ form.email }}" onChange="{{ set.email }}" style="border-color: {{ fb.email }};">
+                <sc-if value="{{ errs.email }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size: 0.8125rem; color: var(--destructive);">{{ errs.email }}</span></sc-if>
+              </label>
+            </div>
+                              <fieldset style="margin: 0; padding: 1.25rem; border: 1px solid var(--border); border-top: 3px solid var(--brand-purple); border-radius: var(--radius-md); background: var(--brand-cream); display: grid; gap: 1rem; min-width: 0;">
+                  <legend style="padding: 0 0.375rem;"><span class="eyebrow" style="color: var(--brand-purple);">Ten questions</span></legend>
+                  <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Ten quick questions so we can place you against the <a href="/compliance-standard" onClick="{{ goCompLink }}" style="color: var(--brand-purple);">BECS Compliance Readiness Standard</a>. "Not sure" is a fine answer; we'll sort it out together.</p>
+                  <sc-for list="{{ snapQs }}" as="q" hint-placeholder-count="10">
+                    <div style="display: grid; gap: 0.375rem; min-width: 0;">
+                      <span class="becs-label">{{ q.n }}. {{ q.q }}</span>
+                      <sc-if value="{{ q.isText }}" hint-placeholder-val="{{ false }}"><input class="becs-input" value="{{ q.value }}" onChange="{{ q.onChange }}" placeholder="{{ q.ph }}" aria-label="{{ q.q }}"></sc-if>
+                      <sc-if value="{{ q.isArea }}" hint-placeholder-val="{{ false }}"><textarea class="becs-input" rows="2" value="{{ q.value }}" onChange="{{ q.onChange }}" placeholder="{{ q.ph }}" aria-label="{{ q.q }}" style="height: auto; padding-top: 0.5rem; font-family: var(--font-body);"></textarea></sc-if>
+                      <sc-if value="{{ q.isSeg }}" hint-placeholder-val="{{ false }}">
+                        <div role="group" aria-label="{{ q.q }}" style="display: flex; flex-wrap: wrap; gap: 0.375rem;">
+                          <sc-for list="{{ q.opts }}" as="o" hint-placeholder-count="3">
+                            <button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="all: unset; cursor: pointer; font-size: 0.8125rem; padding: 0.4rem 0.75rem; border-radius: 999px; border: 1px solid {{ o.border }}; background: {{ o.bg }}; color: var(--foreground);">{{ o.label }}</button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ q.hasSeg2 }}" hint-placeholder-val="{{ false }}">
+                        <div role="group" aria-label="{{ q.q2 }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.375rem;">
+                          <span style="font-size: 0.8125rem; color: var(--muted-foreground); margin-right: 0.25rem;">{{ q.q2 }}</span>
+                          <sc-for list="{{ q.opts2 }}" as="o" hint-placeholder-count="3">
+                            <button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="all: unset; cursor: pointer; font-size: 0.8125rem; padding: 0.4rem 0.75rem; border-radius: 999px; border: 1px solid {{ o.border }}; background: {{ o.bg }}; color: var(--foreground);">{{ o.label }}</button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </fieldset>
+            <label style="display: grid; grid-template-columns: 1.125rem minmax(0, 1fr); gap: 0.625rem; align-items: start; font-size: 0.875rem; cursor: pointer;">
+              <input type="checkbox" checked="{{ form.consent }}" onChange="{{ toggleConsent }}" style="margin: 0.2rem 0 0; accent-color: var(--brand-purple);">
+              <span>I accept the <a href="/agreement" onClick="{{ goTermsLink }}">Terms &amp; Conditions and Privacy Notice</a>. *</span>
+            </label>
+            <sc-if value="{{ errs.consent }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size: 0.8125rem; color: var(--destructive);">{{ errs.consent }}</span></sc-if>
+            <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 0.875rem; color: var(--destructive);">That didn't go through. Try again, or email beconsultingsolutions@gmail.com.</p></sc-if>
+            <div>
+              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" type="submit" size="lg" disabled="{{ sending }}" hint-size="200px,40px">{{ snapLabel }}</x-import>
+            </div>
+          </form>
+        </sc-if>
+        <sc-if value="{{ snapSent }}" hint-placeholder-val="{{ false }}">
+          <div class="becs-card" style="padding: 2rem; display: grid; gap: 0.75rem;">
+            <span class="becs-pill becs-tone-complete" style="justify-self: start;">Received</span>
+            <h2 class="heading-1" style="margin: 0; font-size: 2rem;">Thanks. You're all set.</h2>
+            <p style="margin: 0; font-size: 1rem;">Brandon reviews your answers before your Reality Check. You'll get your Green, Yellow or Red status, and a clear path to Green, during the session.</p>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <!-- ============ AGREEMENT ============ -->
+    <sc-if value="{{ isAgreement }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="Agreement" style="max-width: 72rem; margin: 0 auto; padding: clamp(3rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2rem); display: flex; flex-wrap: wrap; gap: clamp(2rem, 5vw, 3.5rem); align-items: flex-start;">
+        <div style="flex: 999 1 26rem; min-width: 0; display: grid; gap: 1.25rem;">
+          <sc-if value="{{ agDraft }}" hint-placeholder-val="{{ true }}">
+            <div role="note" style="padding: 1rem 1.25rem; border-radius: var(--radius-md); background: var(--tint-destructive-10); color: var(--destructive); font-size: 0.9375rem;"><strong>Placeholder.</strong> These documents are being finalized and reviewed for legal compliance. Signing opens once the final version is published.</div>
+          </sc-if>
+          <div role="tablist" aria-label="Documents" style="display: flex; flex-wrap: wrap; gap: 0.5rem; padding-bottom: 1rem; border-bottom: 3px solid var(--brand-purple);">
+            <sc-for list="{{ agTabs }}" as="t" hint-placeholder-count="3">
+              <button type="button" role="tab" aria-selected="{{ t.on }}" onClick="{{ t.go }}" style="all: unset; cursor: pointer; font-family: var(--font-mono-label); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 0.875rem; border-radius: 999px; border: 1px solid {{ t.border }}; background: {{ t.bg }}; color: {{ t.color }};">{{ t.label }}</button>
+            </sc-for>
+          </div>
+          <article id="terms" class="becs-card" style="padding: clamp(1.5rem, 4vw, 2.5rem);">
+            <p class="becs-label" style="margin: 0;">{{ agDoc.version }}</p>
+            <h2 class="heading-1" style="margin: 0.375rem 0 0; font-size: clamp(1.875rem, 4vw, 2.5rem);">{{ agDoc.title }}</h2>
+            <span class="becs-rule" style="margin-top: 0.75rem;"></span>
+            <p style="margin: 1rem 0 0; font-size: 0.9375rem; color: var(--muted-foreground); text-wrap: pretty;">{{ agDoc.intro }}</p>
+            <div style="margin-top: 1.5rem; display: grid; gap: 1.25rem;">
+              <sc-for list="{{ agDoc.sections }}" as="s" hint-placeholder-count="6">
+                <div style="padding-top: 1.25rem; border-top: 1px solid var(--border);">
+                  <h3 class="heading-3" style="margin: 0; font-size: 1.25rem;">{{ s.n }} · {{ s.t }}</h3>
+                  <p style="margin: 0.5rem 0 0; padding: 0.875rem 1rem; border: 1px dashed var(--brand-slate); border-radius: var(--radius-md); background: var(--brand-cream); font-size: 0.875rem; color: var(--muted-foreground);">[{{ s.p }}]</p>
+                </div>
+              </sc-for>
+            </div>
+          </article>
+        </div>
+
+        <aside style="flex: 1 1 20rem; max-width: 26rem; min-width: 0; position: sticky; top: 6rem;">
+          <div class="becs-card becs-card-lift" style="padding: 1.5rem;">
+            <sc-if value="{{ agNotSigned }}" hint-placeholder-val="{{ true }}">
+              <form onSubmit="{{ agSubmit }}" noValidate="{{ true }}" aria-label="Sign the agreement" style="display: grid; gap: 1rem;">
+                <div>
+                  <p class="eyebrow" style="margin: 0; color: var(--brand-purple);">E-signature</p>
+                  <h2 class="heading-3" style="margin: 0.375rem 0 0; font-size: 1.625rem;">Review and sign</h2>
+                  <p class="becs-caption" style="margin: 0.25rem 0 0;">Typing your name below is your legal signature.</p>
+                </div>
+                <label class="becs-field"><span class="becs-label">Full legal name *</span><input class="becs-input" autocomplete="name" value="{{ sig.name }}" onChange="{{ sigSet.name }}" disabled="{{ agDraft }}"></label>
+                <label class="becs-field"><span class="becs-label">Email *</span><input class="becs-input" type="email" autocomplete="email" value="{{ sig.email }}" onChange="{{ sigSet.email }}" disabled="{{ agDraft }}"></label>
+                <label class="becs-field"><span class="becs-label">Business name</span><input class="becs-input" autocomplete="organization" value="{{ sig.business }}" onChange="{{ sigSet.business }}" disabled="{{ agDraft }}"></label>
+                <label class="becs-field"><span class="becs-label">Engagement</span>
+                  <select class="becs-input" value="{{ sig.engagement }}" onChange="{{ sigSet.engagement }}" disabled="{{ agDraft }}" style="font-family: var(--font-body);">
+                    <sc-for list="{{ agEngagements }}" as="o" hint-placeholder-count="5"><option value="{{ o.v }}">{{ o.v }}</option></sc-for>
+                  </select>
+                </label>
+                <label class="becs-field"><span class="becs-label">Type your name to sign *</span>
+                  <input class="becs-input" value="{{ sig.typed }}" onChange="{{ sigSet.typed }}" disabled="{{ agDraft }}" style="font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.04em; height: 3rem; color: var(--brand-purple);">
+                </label>
+                <div style="display: grid; gap: 0.625rem;">
+                  <sc-for list="{{ agChecks }}" as="c" hint-placeholder-count="3">
+                    <label style="display: grid; grid-template-columns: 1.125rem minmax(0, 1fr); gap: 0.625rem; align-items: start; font-size: 0.8125rem; cursor: pointer;">
+                      <input type="checkbox" checked="{{ c.on }}" onChange="{{ c.toggle }}" disabled="{{ agDraft }}" style="margin: 0.15rem 0 0; accent-color: var(--brand-purple);">
+                      <span>{{ c.t }}</span>
+                    </label>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ agErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 0.8125rem; color: var(--destructive);">{{ agErr }}</p></sc-if>
+                <p class="becs-caption" style="margin: 0;">Signed {{ agToday }} · Your IP address and a fingerprint of this document version are recorded with your signature.</p>
+                <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" type="submit" size="lg" disabled="{{ agBtnDisabled }}" hint-size="100%,40px">{{ agBtnLabel }}</x-import>
+              </form>
+            </sc-if>
+            <sc-if value="{{ agSigned }}" hint-placeholder-val="{{ false }}">
+              <div style="display: grid; gap: 0.75rem;">
+                <span class="becs-pill becs-tone-complete" style="justify-self: start;">Signed</span>
+                <h2 class="heading-3" style="margin: 0; font-size: 1.625rem;">Thank you, {{ sig.name }}.</h2>
+                <p style="margin: 0; font-size: 0.9375rem;">A signed copy is on its way to {{ sig.email }}. Brandon will send your onboarding details and first invoice within one business day.</p>
+                <p class="becs-caption" style="margin: 0;">Reference {{ agRef }}</p>
+              </div>
+            </sc-if>
+          </div>
+        </aside>
+      </section>
+    </sc-if>
+
     <!-- ============ MODE FINDER ============ -->
     <sc-if value="{{ isFinder }}" hint-placeholder-val="{{ false }}">
       <section data-screen-label="Mode Finder" style="max-width: 48rem; margin: 0 auto; padding: clamp(3.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2rem);">
@@ -978,8 +1189,11 @@
               <sc-if value="{{ isInvalid }}" hint-placeholder-val="{{ false }}">
                 <p role="alert" style="margin: 0; font-size: 0.875rem; color: var(--destructive);">A few details are missing. Check the fields above.</p>
               </sc-if>
-              <div ref="{{ tsRef }}"></div>
-              <sc-if value="{{ errs.captcha }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 0.8125rem; color: var(--destructive);">{{ errs.captcha }}</p></sc-if>
+              <label style="display: grid; grid-template-columns: 1.125rem minmax(0, 1fr); gap: 0.625rem; align-items: start; font-size: 0.875rem; cursor: pointer;">
+                <input type="checkbox" checked="{{ form.consent }}" onChange="{{ toggleConsent }}" style="margin: 0.2rem 0 0; accent-color: var(--brand-purple);">
+                <span>I agree to be contacted about my inquiry and accept the <a href="#terms" onClick="{{ goTermsLink }}">Terms &amp; Conditions and Privacy Notice</a>. *</span>
+              </label>
+              <sc-if value="{{ errs.consent }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size: 0.8125rem; color: var(--destructive);">{{ errs.consent }}</span></sc-if>
               <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
                 <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" type="submit" size="lg" disabled="{{ sending }}" hint-size="170px,40px">{{ submitLabel }}</x-import>
                 <p class="becs-caption" style="margin: 0;">Or call <a href="tel:+13125353466">312.535.3466</a></p>
@@ -990,7 +1204,12 @@
             <div style="display: grid; gap: 0.75rem;">
               <span class="becs-pill becs-tone-complete" style="justify-self: start;">Sent</span>
               <h2 class="heading-3" style="margin: 0; font-size: 1.75rem;">Thank you, {{ form.name }}.</h2>
-              <p style="margin: 0; font-size: 1rem;">Brandon will reply personally, usually within one business day, to find a time that works for you.</p>
+              <p style="margin: 0; font-size: 1rem;">A confirmation is on its way to {{ form.email }}. Here's what happens next for <strong>{{ form.interest }}</strong>:</p>
+              <ol style="margin: 0.25rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.625rem;">
+                <sc-for list="{{ sentNext }}" as="n" hint-placeholder-count="3">
+                  <li style="display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.5rem; font-size: 0.9375rem;"><span style="font-family: var(--font-display); font-size: 1.5rem; line-height: 1; color: var(--brand-purple);">{{ n.n }}</span><span>{{ n.t }}</span></li>
+                </sc-for>
+              </ol>
               <div><x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="outline" on-click="{{ resetForm }}" hint-size="170px,36px">Send another message</x-import></div>
             </div>
           </sc-if>
@@ -1050,16 +1269,23 @@
       </div>
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--brand-indigo-soft);">
         <p class="eyebrow-wide" style="margin: 0; font-size: 0.75rem; white-space: nowrap; color: var(--brand-lavender);"><span style="color: var(--brand-lavender);">Plan</span> · <span style="color: var(--brand-lime);">Evolve</span> · <span style="color: #fff;">Succeed</span></p>
-        <p style="margin: 0; font-size: 0.75rem; color: var(--brand-lavender);">© 2026 The B.E. Consulting Solutions</p>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem;">
+          <nav aria-label="Legal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.375rem 0.75rem;">
+            <sc-for list="{{ footLegal }}" as="l" hint-placeholder-count="5">
+              <span style="display: flex; align-items: center; gap: 0.75rem;"><sc-if value="{{ l.sep }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="color: var(--brand-lavender); font-size: 0.75rem;">·</span></sc-if><a href="{{ l.href }}" onClick="{{ l.go }}" style="font-size: 0.75rem; color: #fff; text-decoration: none; border-bottom: 1px solid var(--brand-lavender);" style-hover="color: var(--brand-lime);">{{ l.label }}</a></span>
+            </sc-for>
+          </nav>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--brand-lavender);">© 2026 The B.E. Consulting Solutions</p>
+        </div>
       </div>
     </div>
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;services&quot;,&quot;pes&quot;,&quot;reality&quot;,&quot;cases&quot;,&quot;about&quot;,&quot;finder&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;formEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;},&quot;turnstileSiteKey&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;},&quot;urlRouting&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hosting&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;services&quot;,&quot;compliance&quot;,&quot;snapshot&quot;,&quot;pes&quot;,&quot;reality&quot;,&quot;cases&quot;,&quot;about&quot;,&quot;career&quot;,&quot;agreement&quot;,&quot;finder&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;formEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;},&quot;agreementLive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Agreement&quot;},&quot;signEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Agreement&quot;},&quot;urlRouting&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hosting&quot;}}">
 class Component extends DCLogic {
-  state = { ccMod: 'dashboard', ccStatus: [0, 1, 2, 0], ccDone: ['0-0', '0-1'], ccFaq: -1, page: null, answers: [], rot: 0, addonFilter: 'all', picked: [], errs: {}, status: 'idle',
-    form: { interest: 'Free discovery call', name: '', email: '', phone: '', business: '', meeting: 'Either', method: 'Email', message: '', website: '' } };
+  state = { agTab: 'termsServices', snapFrom: '', agStatus: 'idle', agErr: '', agRef: '', sig: { name: '', email: '', business: '', engagement: 'Not sure yet', typed: '', c0: false, c1: false, c2: false }, ccMod: 'dashboard', ccStatus: [0, 1, 2, 0], ccDone: ['0-0', '0-1'], ccFaq: -1, page: null, answers: [], rot: 0, addonFilter: 'all', picked: [], errs: {}, status: 'idle',
+    form: { interest: 'Free discovery call', name: '', email: '', phone: '', business: '', meeting: 'Either', method: 'Email', message: '', website: '', consent: false, c_legal: '', c_state: '', c_entity: '', c_ein: '', c_bank: '', c_sell: '', c_license: '', c_insurance: '', c_pages: '', c_products: '', c_tax: '', c_tm: '' } };
 
   ADDONS = [
     {g:'Message', step:'EVOLVE', name:'One-Liner', price:250, d:'One sentence that says what you do, who it serves, and why it matters.'},
@@ -1102,7 +1328,7 @@ class Component extends DCLogic {
   };
 
   setField(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v }, errs: { ...s.errs, [k]: undefined } })); }
-  contactWith(interest) { this.go('contact', { form: { ...this.state.form, interest }, status: 'idle', errs: {} }); }
+  contactWith(interest, from) { this.go('contact', { form: { ...this.state.form, interest }, status: 'idle', errs: {}, snapFrom: from || '' }); }
 
   async submitForm(e) {
     e.preventDefault();
@@ -1112,20 +1338,20 @@ class Component extends DCLogic {
     if (!f.name.trim()) errs.name = 'Add your name.';
     if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) errs.email = 'Add a valid email address.';
     if (f.method === 'Phone' && f.phone.replace(/\D/g, '').length < 10) errs.phone = 'Add a phone number so Brandon can call you.';
-    if (!f.message.trim()) errs.message = 'Tell us a little about where you are.';
+    const onSnap = this.showSnapshot();
+    if (!onSnap && !f.message.trim()) errs.message = 'Tell us a little about where you are.';
+    if (!f.consent) errs.consent = 'Please accept the terms so we can reply.';
     if (Object.keys(errs).length) { this.setState({ errs, status: 'invalid' }); return; }
     this.setState({ errs: {}, status: 'sending' });
-    const payload = { interest: f.interest, name: f.name.trim(), email: f.email.trim(), phone: f.phone.trim(), business: f.business.trim(),
-      meeting: f.meeting, preferred_contact: f.method, add_ons: this.state.picked.join(', '), message: f.message.trim(), source: 'website' };
+    const payload = { interest: onSnap ? 'Compliance Snapshot' : f.interest, name: f.name.trim(), email: f.email.trim(), phone: f.phone.trim(), business: f.business.trim(),
+      meeting: f.meeting, preferred_contact: f.method, add_ons: this.state.picked.join(', '), message: onSnap ? (f.message.trim() || 'Compliance Snapshot submitted.') : f.message.trim(), consent: !!f.consent, source: onSnap ? 'compliance-snapshot' : 'website' };
+    if (this.showSnapshot()) { const c = {}; ['legal','state','entity','ein','bank','sell','license','insurance','pages','products','tax','tm'].forEach(k => { c[k] = String(f['c_' + k] || '').trim(); }); payload.compliance = c; }
     const ep = this.props.formEndpoint || (this.live ? '/api/contact' : '');
-    if (ep && this.props.turnstileSiteKey && !this.tsToken) { this.setState({ status: 'invalid', errs: { captcha: 'Please complete the security check.' } }); return; }
-    payload.turnstile_token = this.tsToken || '';
     payload.website = f.website;
     if (ep) {
       try {
         const r = await fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) });
         if (!r.ok) throw new Error('bad');
-        this.tsToken = ''; try { window.turnstile && window.turnstile.reset(this.tsRef.current); } catch (_) {}
         this.setState({ status: 'sent', picked: [] });
       } catch (_) { this.setState({ status: 'error' }); }
     } else {
@@ -1159,15 +1385,18 @@ class Component extends DCLogic {
     this.animate();
   }
 
-  ROUTES = { home:'/', services:'/services', pes:'/pes-framework', reality:'/reality-check', cases:'/case-studies', about:'/about', career:'/career-command-center', finder:'/mode-finder', contact:'/contact' };
+  ROUTES = { home:'/', services:'/services', compliance:'/compliance-standard', snapshot:'/compliance-snapshot', pes:'/pes-framework', reality:'/reality-check', cases:'/case-studies', about:'/about', career:'/career-command-center', agreement:'/agreement', finder:'/mode-finder', contact:'/contact' };
   META = {
     home: ['Operational consulting for owners ready to stop improvising', 'The B.E. Consulting Solutions helps founders, small business owners, coaches and creatives build real systems, scalable offers and growth that lasts with the P.E.S. framework: Plan. Evolve. Succeed. Virtual nationwide; in person across Chicago, Milwaukee and Northern Illinois.'],
     services: ['Service tiers & à la carte add-ons', 'Three ways to work together: the P.E.S. Reality Check, Foundation Builder and P.E.S. Business Launch, plus à la carte add-ons for messaging, brand, offers, operations and visibility.'],
+    snapshot: ['Compliance Snapshot', 'Ten quick questions ahead of your P.E.S. Reality Check.'],
+    compliance: ['BECS Compliance Readiness Standard', 'Every BECS client is verified against the same compliance baseline before we build: legal entity, EIN, banking, licenses, insurance, website legal pages, sales tax and trademark. Green, Yellow or Red status, tracked while we support you.'],
     pes: ['The P.E.S. framework · Plan. Evolve. Succeed.', 'P.E.S. is the structured path behind every engagement: Plan where the business is going, Evolve the systems and offers, and Succeed by measuring and refining.'],
     reality: ['P.E.S. Reality Check · 90-minute business diagnostic', 'A 90-minute diagnostic that shows where your business stands, what is slipping through the cracks, and what to fix first. Virtual or in person.'],
     cases: ['Case studies · The P.E.S. framework in action', 'How BECS builds operating systems, brand systems, client portals and intake systems for founder-led businesses, shown through Plan, Evolve and Succeed.'],
     about: ['About Brandon Ellis Bynum · Founder & CEO', 'Brandon Ellis Bynum is the Founder & CEO of The B.E. Consulting Solutions, a business systems and fractional COO firm, and creator of the P.E.S. framework.'],
     career: ['Career Command Center · Run your job search like an operation', 'A ten-module career portal for professionals who keep their day job while landing the next role: strategy, resumes, LinkedIn, employer targets, application tracker, interview prep, outreach and a 30-60-90 roadmap.'],
+    agreement: ['Terms, privacy & client agreement', 'Terms & Conditions, Privacy Notice and the Client Services Agreement for The B.E. Consulting Solutions, with secure electronic signature.'],
     finder: ['P.E.S. Mode Finder', 'Four quick questions to find your P.E.S. mode, Plan, Evolve or Succeed, and where it makes sense to start. No email required.'],
     contact: ['Contact · Book a free discovery call', 'Book a free discovery call with Brandon Ellis Bynum. Serving the US virtually, and in person across Chicago, Milwaukee and Northern Illinois. Call 312.535.3466.']
   };
@@ -1184,6 +1413,26 @@ class Component extends DCLogic {
       set('meta[property="og:url"]', 'content', url);
       set('link[rel="canonical"]', 'href', url);
     }, 0);
+  }
+  agVals() {
+    const st = this.state, s = st.sig, draft = !this.props.agreementLive, doc = this.AG[st.agTab];
+    const setS = k => e => { const v = e.target.value; this.setState(p => ({ sig: { ...p.sig, [k]: v }, agErr: '' })); };
+    const tabs = [['termsProducts', 'Terms · Products'], ['termsServices', 'Terms · Services'], ['privacy', 'Privacy Notice'], ['agreement', 'Client Services Agreement']].map(([k, l]) => { const on = st.agTab === k;
+      return { label: l, on: on ? 'true' : 'false', go: () => this.setState({ agTab: k }), bg: on ? 'var(--brand-purple)' : 'var(--card)', color: on ? '#fff' : 'var(--foreground)', border: on ? 'var(--brand-purple)' : 'var(--border)' }; });
+    const checks = ['I have read and agree to the Terms & Conditions (Products and Services) and Privacy Notice.', 'I have read and agree to the Client Services Agreement.', 'I consent to sign electronically, and I understand my typed name is my legal signature.']
+      .map((t, i) => ({ t, on: s['c' + i], toggle: () => this.setState(p => ({ sig: { ...p.sig, ['c' + i]: !p.sig['c' + i] }, agErr: '' })) }));
+    return {
+      agDraft: draft, agTabs: tabs, agChecks: checks,
+      agDoc: { ...doc, sections: doc.sections.map(([t, p], i) => ({ n: String(i + 1).padStart(2, '0'), t, p })) },
+      sig: s, sigSet: { name: setS('name'), email: setS('email'), business: setS('business'), engagement: setS('engagement'), typed: setS('typed') },
+      agEngagements: ['Not sure yet', 'P.E.S. Reality Check', 'Foundation Builder', 'P.E.S. Business Launch', 'Career Command Center', 'À la carte add-ons'].map(v => ({ v })),
+      agToday: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      agErr: st.agErr, agRef: st.agRef,
+      agNotSigned: st.agStatus !== 'signed', agSigned: st.agStatus === 'signed',
+      agBtnDisabled: draft || st.agStatus === 'sending',
+      agBtnLabel: draft ? 'Signing opens soon' : st.agStatus === 'sending' ? 'Signing…' : 'Sign agreement',
+      agSubmit: e => this.agSubmitFn(e)
+    };
   }
   ccVals() {
     const C = this.CC, st = this.state, cur = st.ccMod, mod = C.mods[cur];
@@ -1241,16 +1490,72 @@ class Component extends DCLogic {
       ].map(([q, a], i) => { const open = st.ccFaq === i; return { q, a, open, sign: open ? '–' : '+', expanded: open ? 'true' : 'false', toggle: () => this.setState({ ccFaq: open ? -1 : i }) }; })
     };
   }
-  tsRef = React.createRef();
-  mountTurnstile() {
-    const key = this.props.turnstileSiteKey, el = this.tsRef.current;
-    if (!key || !el || el.dataset.ts) return;
-    el.dataset.ts = '1';
-    const render = () => window.turnstile.render(el, { sitekey: key, theme: 'light', callback: t => { this.tsToken = t; }, 'expired-callback': () => { this.tsToken = ''; } });
-    if (window.turnstile) return render();
-    const s = document.createElement('script'); s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; s.async = true; s.onload = render; document.head.appendChild(s);
+  AG = {
+    termsProducts: { title:'Terms & Conditions · Products', version:'Version 0.1 · Draft placeholder', intro:'These terms cover digital products, templates and toolkits purchased from The B.E. Consulting Solutions, including the Career Command Center Toolkit.',
+      sections:[['Products covered','Digital templates, toolkits and portals sold on this site'],['Orders & payment','Pricing, taxes, payment methods and order confirmation'],['Delivery & access','How and when products are delivered or unlocked'],['Refunds','Refund policy for digital products'],['License & permitted use','Personal or business use; no resale or redistribution'],['Limitation of liability','Products provided as-is; liability caps'],['Governing law','State of Illinois; venue and dispute resolution']] },
+    termsServices: { title:'Terms & Conditions · Services', version:'Version 0.1 · Draft placeholder', intro:'These terms govern use of thebeconsultingsolution.com and any consulting services purchased from The B.E. Consulting Solutions.',
+      sections:[['Acceptance of terms','How using the site or purchasing services forms agreement'],['Services','Description of services and the P.E.S. engagement model'],['Compliance Readiness Standard','Green or Yellow status required before build; BECS verifies document existence only and gives no legal, tax or licensing advice'],['Payments & refunds','Invoicing, payment timing, refund and cancellation policy'],['Intellectual property','Ownership of deliverables, frameworks and site content'],['Limitation of liability','Liability caps and disclaimers'],['Governing law','State of Illinois; venue and dispute resolution'],['Changes to these terms','How updates are published and take effect']] },
+    privacy: { title:'Privacy Notice', version:'Version 0.1 · Draft placeholder', intro:'How we collect, use and protect the information you share through this site and during an engagement.',
+      sections:[['Information we collect','Contact form details, signatures, technical data such as IP address'],['How we use it','Replying to inquiries, delivering services, invoicing'],['Sharing','Service providers only (email delivery, hosting); never sold'],['Retention','How long records and signatures are kept'],['Your rights','Access, correction and deletion requests'],['Contact','beconsultingsolutions@gmail.com · 312.535.3466']] },
+    agreement: { title:'Client Services Agreement', version:'Version 0.1 · Draft placeholder', intro:'The agreement every client signs before an engagement begins. Scope and investment for your tier are set out in your Partnership Investment Packet (P.I.P.).',
+      sections:[['Parties','The B.E. Consulting Solutions and the client named in the signature block'],['Scope of work','Engagement tier and deliverables, by reference to the P.I.P. / SOW'],['Fees & payment schedule','Investment, deposit, installments and late fees'],['Client responsibilities','Access, timely feedback and decision-making'],['Confidentiality','Mutual non-disclosure of business information'],['Ownership of deliverables','Transfer of rights on final payment; BECS retains frameworks'],['Term & termination','Engagement length, notice period and early termination'],['Warranties & liability','Service standard, disclaimers and liability cap'],['Electronic signatures','Consent to sign electronically under the E-SIGN Act and Illinois law'],['Entire agreement','This agreement, the P.I.P. and any SOW form the full agreement']] }
+  };
+  async agSubmitFn(e) {
+    e.preventDefault();
+    const s = this.state.sig;
+    if (!this.props.agreementLive) return;
+    let err = '';
+    if (!s.name.trim()) err = 'Add your full legal name.';
+    else if (!/^\S+@\S+\.\S+$/.test(s.email.trim())) err = 'Add a valid email address.';
+    else if (s.typed.trim().toLowerCase() !== s.name.trim().toLowerCase()) err = 'Your typed signature must match your full legal name.';
+    else if (!(s.c0 && s.c1 && s.c2)) err = 'Please check all three boxes to sign.';
+    if (err) return this.setState({ agErr: err });
+    this.setState({ agErr: '', agStatus: 'sending' });
+    const docs = ['termsProducts', 'termsServices', 'privacy', 'agreement'].map(k => this.AG[k].title + ' ' + this.AG[k].version).join(' | ');
+    try {
+      const r = await fetch(this.props.signEndpoint || '/api/sign', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: s.name.trim(), email: s.email.trim(), business: s.business.trim(), engagement: s.engagement, typed: s.typed.trim(), consents: [s.c0, s.c1, s.c2], documents: docs }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) throw new Error('x');
+      this.setState({ agStatus: 'signed', agRef: j.ref || '' });
+    } catch (_) { this.setState({ agStatus: 'idle', agErr: 'That didn\'t go through. Try again, or email beconsultingsolutions@gmail.com.' }); }
   }
-  componentDidUpdate() { this.animate(); this.mountTurnstile(); if (this._title) { const t = this._title; setTimeout(() => { document.title = t; }, 0); } }
+  snapQs(seg) {
+    const f = this.state.form;
+    const T = (n, q, key, ph, area) => ({ n: String(n), q, value: f[key], onChange: e => this.setField(key, e.target.value), ph, isText: !area, isArea: !!area, isSeg: false, hasSeg2: false });
+    const S = (n, q, key, opts, q2, key2, opts2) => ({ n: String(n), q, isText: false, isArea: false, isSeg: true, opts: seg(key, opts), hasSeg2: !!q2, q2: q2 || '', opts2: q2 ? seg(key2, opts2) : [] });
+    return [
+      T(1, 'Business legal name and state of registration', 'c_legal', 'e.g. Example Studio LLC · Illinois'),
+      S(2, 'Entity type', 'c_entity', ['Sole prop', 'LLC', 'Corporation', 'Other', 'Not yet formed']),
+      S(3, 'EIN issued in the business name?', 'c_ein', ['Yes', 'No', 'Not sure']),
+      S(4, 'Separate business bank account?', 'c_bank', ['Yes', 'No']),
+      T(5, 'What you sell, and in which states or cities', 'c_sell', 'e.g. Coaching packages, nationwide · retail in Chicago', true),
+      T(6, 'Does your industry require a license or permit? List each with expiration date', 'c_license', 'e.g. Cosmetology license, exp. 06/2027 · or "None required"', true),
+      T(7, 'Business insurance? Which types?', 'c_insurance', 'e.g. General liability, professional liability · or "None yet"'),
+      S(8, 'Website has terms, privacy, and refund policies?', 'c_pages', ['Yes', 'No', 'Partly']),
+      S(9, 'Sell physical or digital products?', 'c_products', ['Physical', 'Digital', 'Both', 'Neither'], 'Registered for sales tax where required?', 'c_tax', ['Yes', 'No', 'Not sure', 'Not required']),
+      S(10, 'Trademark search done on your name?', 'c_tm', ['Yes', 'No', 'Not sure'])
+    ];
+  }
+  showSnapshot() { return this.state.page === 'snapshot'; }
+  COMP = {
+    items: [['Legal entity','Registered and in good standing in your state.'],['EIN','Issued in your business\'s legal name.'],['Business bank account','Separate from personal.'],['Licenses & permits','Held for your industry and locations.'],['Insurance','Liability coverage that fits your service.'],['Website legal pages','Terms, privacy, and refund policies published.'],['Sales tax','Registered where you sell taxable products.'],['Name & brand','Trademark search done before we build your brand.']],
+    status: [['Green','var(--brand-lime)','Every baseline item confirmed.','Eligible for every offer.'],['Yellow','oklch(0.84 0.15 88)','Entity and EIN confirmed, remaining gaps on a dated plan.','Eligible for every offer; we track your plan with you.'],['Red','var(--destructive)','Not yet registered, or missing a required license.','Start with a P.E.S. Reality Check; it becomes your path to Green.']],
+    where: [['Plan','var(--brand-purple)','P.E.S. Reality Check','Includes your Compliance Snapshot and status.'],['Evolve','var(--brand-purple)','Foundation Builder and P.E.S. Business Launch','Green or Yellow status required before any build begins. Every build includes a compliance vault and deadline reminders inside your system.'],['Succeed','var(--brand-purple)','SUCCEED partnership','Quarterly re-verification, plus tracking of annual reports, license renewals, and insurance dates.']]
+  };
+  nextSteps(interest) {
+    const M = {
+      'Free discovery call': ['Brandon replies personally within one business day with times for a free 30-minute call.', 'On the call we talk through where you are, where you want to go, and which starting point fits.', 'You leave with a clear next step, whether or not we work together.'],
+      'P.E.S. Reality Check': ['Within one business day you receive a scheduling link for your 90-minute session.', 'Before the session: a link to your Compliance Snapshot (ten quick questions, no documents needed yet) and the $497 invoice.', 'After the session: written findings, your compliance status, and your 90-day priority plan.'],
+      'Foundation Builder': ['Brandon replies within one business day to book a discovery call.', 'After the call you receive your Partnership Investment Packet (P.I.P.) with scope and investment.', 'You sign the client agreement online, the deposit is invoiced, and the 4–6 week sprint is scheduled.'],
+      'P.E.S. Business Launch': ['Brandon replies within one business day to book a discovery call.', 'After the call you receive your Partnership Investment Packet (P.I.P.) with scope and investment.', 'You sign the client agreement online, the deposit is invoiced, and the 90-day engagement is scheduled.'],
+      'Career Command Center': ['Within one business day you receive a short career intake and a link to confirm your tier.', 'Once confirmed, we build your Command Center modules.', 'You get your portal login and a walkthrough of how to run it each week.'],
+      'À la carte add-ons': ['Brandon reviews the add-ons on your list and replies within one business day.', 'A short scoping call confirms deliverables, timing and final price.', 'You approve the scope, sign online, and work begins.'],
+      'Something else': ['Brandon reads your message and replies personally within one business day.', 'If it makes sense, he suggests a time to talk.', 'No pressure and no obligation.']
+    };
+    return (M[interest] || M['Something else']).map((t, i) => ({ n: String(i + 1), t }));
+  }
+  componentDidUpdate() { this.animate(); if (this._title) { const t = this._title; setTimeout(() => { document.title = t; }, 0); } }
   componentWillUnmount() { window.removeEventListener('scroll', this.onScroll); this.onPop && window.removeEventListener('popstate', this.onPop); clearInterval(this.timer); this.io && this.io.disconnect(); }
 
   animate() {
@@ -1381,7 +1686,7 @@ class Component extends DCLogic {
     const stagger = (arr, step = 110) => arr.map((x, i) => ({ ...x, delay: String(i * step) }));
     const ci = this.state.caseIdx || 0, cs = this.CASES[ci];
 
-    const nav = [['services','Services'],['pes','P.E.S. framework'],['reality','Reality Check'],['cases','Case studies'],['about','About'],['career','Career Command'],['finder','Mode Finder'],['contact','Contact']]
+    const nav = [['services','Services'],['compliance','Compliance Standard'],['pes','P.E.S. framework'],['reality','Reality Check'],['cases','Case studies'],['about','About'],['career','Career Command'],['finder','Mode Finder'],['contact','Contact']]
       .map(([k, l]) => ({ label: l, go: g(k), bar: page === k ? 'var(--brand-lime)' : 'transparent' }));
 
     const PC = {"P":"var(--brand-purple)","E":"var(--brand-lime)","S":"var(--brand-slate)"}, PD = {"P":"var(--brand-lavender)","E":"var(--brand-lime)","S":"#fff"};
@@ -1392,17 +1697,20 @@ class Component extends DCLogic {
     ], 140).map(p => ({ ...p, color: PC[p.key], dark: PD[p.key] }));
 
     const tiers = stagger([
-      { badge:'Entry point', pillClass:'becs-tone-not_started', name:'P.E.S. Reality Check', price:'$497', term:'One 90-minute session', d:'90-minute diagnostic of where your business stands.', long:'A 90-minute diagnostic of where your business stands, with written findings on what to fix first. The clearest, lowest-risk way to start.', phases:'Plan', btn:'outline', border:'var(--border)' },
-      { badge:'Most popular', pillClass:'becs-tone-complete', name:'Foundation Builder', price:'$2,497', term:'4–6 week sprint', d:'4–6 week sprint to build your core systems and offers.', long:'A 4–6 week sprint where we build your core systems and structure your offers alongside you, so the essentials stop depending on you.', phases:'Plan · Evolve', btn:'default', border:'var(--brand-purple)' },
-      { badge:'Flagship', pillClass:'becs-tone-in_progress', name:'P.E.S. Business Launch', price:'$5,495', term:'90-day engagement', d:'90-day transformation across all three phases.', long:'A 90-day transformation across all three phases: plan the business, build the systems and offers, then execute, measure and refine together.', phases:'Plan · Evolve · Succeed', btn:'outline', border:'var(--border)' }
+      { badge:'Entry point', pillClass:'becs-tone-not_started', name:'P.E.S. Reality Check', price:'$497', term:'One 90-minute session', d:'90-minute diagnostic of where your business stands.', long:'A 90-minute diagnostic of where your business stands, with written findings on what to fix first. The clearest, lowest-risk way to start.', phases:'Plan', btn:'outline', border:'var(--border)', compPre:'Includes your Compliance Snapshot', compLinkOn:false, compPost:'' },
+      { badge:'Most popular', pillClass:'becs-tone-complete', name:'Foundation Builder', price:'$2,497', term:'4–6 week sprint', d:'4–6 week sprint to build your core systems and offers.', long:'A 4–6 week sprint where we build your core systems and structure your offers alongside you, so the essentials stop depending on you.', phases:'Plan · Evolve', btn:'default', border:'var(--brand-purple)', compPre:'Requires Green or Yellow', compLinkOn:true, compPost:'before build' },
+      { badge:'Flagship', pillClass:'becs-tone-in_progress', name:'P.E.S. Business Launch', price:'$5,495', term:'90-day engagement', d:'90-day transformation across all three phases.', long:'A 90-day transformation across all three phases: plan the business, build the systems and offers, then execute, measure and refine together.', phases:'Plan · Evolve · Succeed', btn:'outline', border:'var(--border)', compPre:'Requires Green or Yellow', compLinkOn:true, compPost:'· compliance vault included' }
     ]);
 
     const masts = {
       services: { eyebrow:'Service tiers', title:'Choose your starting point.', intro:'Three ways to work together. Start where you are; we\'ll help you pick the right one on a free call.', img:U('1556761175-5973dc0f32e7'), alt:'A founder presenting to his team in a brick loft office' },
+      snapshot: { eyebrow:'Reality Check prep · About 5 minutes', title:'Your Compliance Snapshot.', intro:'Ten quick questions so your Reality Check starts with a clear picture. No documents needed yet.', img:U('1484480974693-6ca0a78fb36b'), alt:'A business owner checking off a to-do list in a notebook' },
+      compliance: { eyebrow:'Our Standard', title:'We only build on solid ground.', intro:'Every BECS client is verified against the same compliance baseline before we build anything, and tracked while we support you. It protects your business, your customers, and the quality of our work. This standard is non-negotiable, for every client, at every price.', img:U('1454165804606-c3d57bc86b40'), alt:'Two people reviewing handwritten notes beside laptops during a compliance review' },
       pes: { eyebrow:'How every engagement is guided', title:'Plan. Evolve. Succeed.', intro:'The same structured path for every client, tailored to your business. Three phases, in order, each with a clear question to answer.', img:U('1552664730-d307ca884978'), alt:'A team mapping a plan with sticky notes on a whiteboard' },
       reality: { eyebrow:'P.E.S. Reality Check · 90 minutes', title:'An honest read on your business.', intro:'Find out where things stand, what\'s slipping through the cracks, and what to fix first, before you invest in anything bigger.', img:U('1454165804606-c3d57bc86b40'), alt:'Two people reviewing handwritten notes beside laptops during a business review' },
       about: { eyebrow:'Founder & CEO · Creator of P.E.S.', title:'Meet Brandon Ellis Bynum.', intro:'An operator first. He builds the systems that let founder-led brands run without running the founder into the ground.', img:U('1552664730-d307ca884978'), alt:'A team mapping a plan with sticky notes on a whiteboard' },
       career: { eyebrow:'Career Command Center · Don\'t quit your day job', title:'Run your job search like an operation.', intro:'One portal for your strategy, resumes, LinkedIn, target employers, applications, interview prep and 30-60-90 plan, built so you can land the next role while you keep the one you have.', img:U('1454165804606-c3d57bc86b40'), alt:'Two people reviewing handwritten notes beside laptops during a job search plan' },
+      agreement: { eyebrow:'Legal', title:'Terms, privacy & your agreement.', intro:'Read the documents that cover this site and every engagement, then sign your client agreement online. It takes about two minutes.', img:U('1499951360447-b19be8fe80f5'), alt:'A clean workspace with a laptop and monitor' },
       cases: { eyebrow:'Case studies · P.E.S. in action', title:'Built in the open.', intro:'Real BECS builds, each shown the same way: the opportunity, then Plan, Evolve and Succeed. Pick one to read the full story.', img:U('1521737604893-d14cc237f11d'), alt:'A small team working together on laptops around a table' },
       finder: { eyebrow:'P.E.S. Mode Finder', title:'Find your mode.', intro:'Four quick questions. We\'ll point you to where it makes sense to start. No email required.', img:U('1499951360447-b19be8fe80f5'), alt:'A clean workspace with a laptop and monitor' },
       contact: { eyebrow:'Contact', title:'Let\'s talk.', intro:'Tell us where you are and where you want to go. Brandon reads every message and replies personally.', img:U('1600880292203-757bb62b4baf'), alt:'A business owner and consultant high-five across a desk after a planning session' }
@@ -1481,7 +1789,24 @@ class Component extends DCLogic {
       resetForm: () => this.setState(s => ({ status: 'idle', form: { ...s.form, message: '' } })),
       submit: e => this.submitForm(e),
       isHome: page === 'home', isInterior: page !== 'home',
-      isServices: page === 'services', isPes: page === 'pes', notPes: page !== 'pes', isReality: page === 'reality', isCases: page === 'cases', isAbout: page === 'about', tsRef: this.tsRef, isCareer: page === 'career',
+      isServices: page === 'services', isPes: page === 'pes', notPes: page !== 'pes', isReality: page === 'reality', isCases: page === 'cases', isAbout: page === 'about', isAgreement: page === 'agreement',
+      ...this.agVals(),
+      sentNext: this.nextSteps(this.state.form.interest),
+      toggleConsent: () => this.setField('consent', !this.state.form.consent),
+      goTerms: () => this.go('agreement', { agTab: 'termsServices' }),
+      goTermsLink: e => { e.preventDefault(); this.go('agreement', { agTab: 'termsServices' }); },
+      goCompLink: e => { e.preventDefault(); this.go('compliance'); },
+      goReality: () => this.go('reality'),
+      isCompliance: page === 'compliance',
+      footLegal: [['Compliance Standard','/compliance-standard','compliance'],['Terms (Products)','/agreement','termsProducts'],['Terms (Services)','/agreement','termsServices'],['Privacy','/agreement','privacy'],['Client agreement','/agreement','agreement']]
+        .map(([label, href, k], i) => ({ label, href, sep: i > 0, go: e => { e.preventDefault(); k === 'compliance' ? this.go('compliance') : this.go('agreement', { agTab: k }); } })),
+      compItems: this.COMP.items.map(([t, d], i) => ({ n: String(i + 1).padStart(2, '0'), t, d, delay: String((i % 4) * 80) })),
+      compStatus: this.COMP.status.map(([label, c, t, d], i) => ({ label, c, t, d, delay: String(i * 110) })),
+      compWhere: this.COMP.where.map(([phase, c, t, d], i) => ({ phase, c: ['var(--brand-purple)', 'var(--brand-navy)', 'var(--brand-navy)'][i], t, d, delay: String(i * 100) })),
+      isSnapshot: page === 'snapshot',
+      snapNotSent: st !== 'sent' && st !== 'mailto', snapSent: st === 'sent' || st === 'mailto',
+      snapLabel: st === 'sending' ? 'Sending…' : 'Send my snapshot',
+      snapQs: this.snapQs(seg), isCareer: page === 'career',
       ...this.ccVals(), isFinder: page === 'finder', isContact: page === 'contact',
       showCta: page !== 'contact',
       mast: masts[page] || masts.services,
@@ -1509,7 +1834,7 @@ class Component extends DCLogic {
       stakes: ['Every new client adds more to your plate', 'Leads and referrals go cold without follow-up', 'Growth stays capped at the hours you can personally work'],
       wins: ['Clients, hires and handoffs follow a repeatable path', 'Offers priced and packaged to grow', 'Clear numbers, clear owners, and time back for you'],
       rcFlow: stagger([
-        { when:'Before', t:'Short intake', d:'A few questions so our time goes to your business, not background.' },
+        { when:'Before', t:'Short intake', d:'A few questions so our time goes to your business, not background, including your ten-question Compliance Snapshot.' },
         { when:'During', t:'90-minute session', d:'We look at your systems, offers and revenue flow together, honestly.' },
         { when:'After', t:'Written findings', d:'What we found, what to fix first, and the right next step. Yours to keep, whether or not we work together.' }
       ], 130),
