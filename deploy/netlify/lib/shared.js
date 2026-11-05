@@ -16,25 +16,46 @@ export function guard(request) {
   return null;
 }
 
-export async function rateLimit(bucket, ip, max) {
+// Fixed-window limit: `max` requests per IP per hour per bucket.
+// Atomic: reads with strong consistency and writes only if nobody changed the counter since
+// (etag / onlyIfNew), retrying on conflict, so parallel requests cannot share one slot.
+// failOpen decides what a storage outage means: true lets the request through, false refuses it.
+export async function rateLimit(bucket, ip, max, { failOpen = false } = {}) {
   try {
-    const store = getStore('rate-limit');
+    const store = getStore({ name: 'rate-limit', consistency: 'strong' });
     const key = `${bucket}:${ip}:${Math.floor(Date.now() / 3_600_000)}`;
-    const n = parseInt(await store.get(key) || '0', 10);
-    if (n >= max) return false;
-    await store.set(key, String(n + 1));
-  } catch (_) {}
-  return true;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const cur = await store.getWithMetadata(key);
+      const n = parseInt(cur?.data || '0', 10);
+      if (n >= max) return false;
+      const res = cur
+        ? await store.set(key, String(n + 1), { onlyIfMatch: cur.etag })
+        : await store.set(key, '1', { onlyIfNew: true });
+      if (res.modified) return true;
+    }
+    return false; // five lost races on one IP's counter is itself a burst; refuse it
+  } catch (err) {
+    console.error('rate limit storage error', bucket, String(err).slice(0, 200));
+    return failOpen;
+  }
 }
 
 export const agreementStore = () => getStore('agreements');
 
 export async function sendEmail({ to, subject, text, html, replyTo }) {
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: env('FROM_EMAIL'), to: [to], subject: subject.slice(0, 150), text, html, ...(replyTo ? { reply_to: replyTo } : {}) })
-  });
+  let r;
+  try {
+    r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: env('FROM_EMAIL'), to: [to], subject: subject.slice(0, 150), text, html, ...(replyTo ? { reply_to: replyTo } : {}) }),
+      signal: AbortSignal.timeout(10000)
+    });
+  } catch (err) {
+    // Network failure or timeout: report "not sent" like a rejection, never throw past the caller.
+    console.error('resend unreachable', String(err).slice(0, 200));
+    return false;
+  }
   // On failure, log Resend's reason (e.g. unverified domain, restricted key). It never contains the key.
   if (!r.ok) console.error('resend rejected', r.status, (await r.text().catch(() => '')).slice(0, 500));
   return r.ok;

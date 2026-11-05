@@ -12,6 +12,9 @@ export default async (request, context) => {
   if (raw.length > 6000) return json(413, { ok: false, error: 'too_large' });
   let b; try { b = JSON.parse(raw); } catch { return json(400, { ok: false, error: 'bad_json' }); }
 
+  // Refuse before anything is stored: a signature saved without its emails is a record the signer never saw.
+  if (!env('RESEND_API_KEY') || !env('TO_EMAIL') || !env('FROM_EMAIL')) return json(500, { ok: false, error: 'not_configured' });
+
   const ip = context.ip || request.headers.get('x-nf-client-connection-ip') || 'unknown';
   if (!(await rateLimit('sign', ip, 5))) return json(429, { ok: false, error: 'rate_limited' });
 
@@ -27,19 +30,24 @@ export default async (request, context) => {
   record.record_hash = await sha256(JSON.stringify(record));
 
   await agreementStore().setJSON(ref, record);
-  if (!env('RESEND_API_KEY') || !env('TO_EMAIL') || !env('FROM_EMAIL')) return json(500, { ok: false, error: 'not_configured' });
 
   const when = new Date(signedAt).toLocaleString('en-US', { timeZone: 'America/Chicago', dateStyle: 'long', timeStyle: 'short' }) + ' CT';
   const rows = [['Reference', ref], ['Signed by', d.name], ['Email', d.email], ['Business', d.business], ['Engagement', d.engagement], ['Signature', d.typed], ['Documents', d.documents], ['Signed at', when], ['IP address', ip], ['Document fingerprint', docHash]];
 
-  await sendEmail({ to: d.email, replyTo: env('TO_EMAIL'), subject: `Your signed agreement · ${ref}`,
+  const signerSent = await sendEmail({ to: d.email, replyTo: env('TO_EMAIL'), subject: `Your signed agreement · ${ref}`,
     html: emailHtml({ kicker: 'Signed copy', title: 'Your agreement is signed.', intro: 'Keep this email for your records. It is your confirmation of what you signed and when.', rows,
       steps: ['Brandon sends your onboarding details and first invoice within one business day.', 'Once the deposit is paid, your engagement hub is set up and your first session is scheduled.'] }),
     text: ['Your agreement is signed.', '', ...rows.filter(r => r[1]).map(([k, v]) => `${k}: ${v}`)].join('\n') });
 
-  await sendEmail({ to: env('TO_EMAIL'), replyTo: d.email, subject: `[Signed] ${d.engagement} · ${d.name} · ${ref}`,
+  const ownerSent = await sendEmail({ to: env('TO_EMAIL'), replyTo: d.email, subject: `[Signed] ${d.engagement} · ${d.name} · ${ref}`,
     html: emailHtml({ kicker: 'Agreement signed', title: `${d.name} signed`, rows, stepsTitle: 'Your next steps', steps: ['Send onboarding details and the first invoice.', 'Set up their engagement hub.', 'Schedule the kickoff session.'] }),
     text: ['Agreement signed', '', ...rows.filter(r => r[1]).map(([k, v]) => `${k}: ${v}`)].join('\n') });
 
-  return json(200, { ok: true, ref });
+  // Delivery status lives beside the signature (record_hash covers the signature fields only),
+  // so a failed copy can be found and resent by its reference.
+  const notified = { signer: signerSent, owner: ownerSent, at: new Date().toISOString() };
+  await agreementStore().setJSON(ref, { ...record, notified });
+
+  // The signature is valid either way; tell the signer honestly whether their copy went out.
+  return json(200, { ok: true, ref, emailed: signerSent });
 };

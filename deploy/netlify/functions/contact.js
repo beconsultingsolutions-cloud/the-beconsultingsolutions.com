@@ -14,11 +14,12 @@ export default async (request, context) => {
   if (body.website) return json(200, { ok: true }); // honeypot
 
   const ip = context.ip || request.headers.get('x-nf-client-connection-ip') || 'unknown';
-  if (!(await rateLimit('contact', ip, 5))) return json(429, { ok: false, error: 'rate_limited' });
+  // Fail open: during a storage outage a lost lead costs more than a few unlimited submissions.
+  if (!(await rateLimit('contact', ip, 5, { failOpen: true }))) return json(429, { ok: false, error: 'rate_limited' });
 
   const d = {};
   for (const [k, max] of Object.entries(LIMITS)) d[k] = clean(body[k], max);
-  if (!NEXT[d.interest]) d.interest = 'Something else';
+  if (!Object.hasOwn(NEXT, d.interest)) d.interest = 'Something else';
   if (!d.name) return json(422, { ok: false, error: 'name' });
   if (!EMAIL_RE.test(d.email)) return json(422, { ok: false, error: 'email' });
   if (!d.message && d.interest !== 'Compliance Snapshot') return json(422, { ok: false, error: 'message' });
@@ -58,7 +59,7 @@ export default async (request, context) => {
   }).catch(() => {});
 
   if (env('CRM_WEBHOOK_URL')) {
-    await fetch(env('CRM_WEBHOOK_URL'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...d, compliance: comp, kind: n.kind, source: 'website', submitted_at: new Date().toISOString() }) }).catch(() => {});
+    await fetch(env('CRM_WEBHOOK_URL'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...d, compliance: comp, kind: n.kind, source: 'website', submitted_at: new Date().toISOString() }), signal: AbortSignal.timeout(3000) }).catch(() => {});
   }
   return json(200, { ok: true });
 };
