@@ -1032,7 +1032,12 @@
               <div style="display: grid; gap: 0.75rem;">
                 <span class="becs-pill becs-tone-complete" style="justify-self: start;">Signed</span>
                 <h2 class="heading-3" style="margin: 0; font-size: 1.625rem;">Thank you, {{ sig.name }}.</h2>
-                <p style="margin: 0; font-size: 0.9375rem;">A signed copy is on its way to {{ sig.email }}. Brandon will send your onboarding details and first invoice within one business day.</p>
+                <sc-if value="{{ agCopySent }}" hint-placeholder-val="{{ true }}">
+                  <p style="margin: 0; font-size: 0.9375rem;">A signed copy is on its way to {{ sig.email }}. Brandon will send your onboarding details and first invoice within one business day.</p>
+                </sc-if>
+                <sc-if value="{{ agCopyFailed }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin: 0; font-size: 0.9375rem;">Your signature is recorded, but we couldn't email your signed copy to {{ sig.email }}. Please don't sign again: email beconsultingsolutions@gmail.com with the reference below and Brandon will send your copy along with your onboarding details.</p>
+                </sc-if>
                 <p class="becs-caption" style="margin: 0;">Reference {{ agRef }}</p>
               </div>
             </sc-if>
@@ -1284,7 +1289,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;services&quot;,&quot;compliance&quot;,&quot;snapshot&quot;,&quot;pes&quot;,&quot;reality&quot;,&quot;cases&quot;,&quot;about&quot;,&quot;career&quot;,&quot;agreement&quot;,&quot;finder&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;formEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;},&quot;agreementLive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Agreement&quot;},&quot;signEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Agreement&quot;},&quot;urlRouting&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hosting&quot;}}">
 class Component extends DCLogic {
-  state = { agTab: 'termsServices', snapFrom: '', agStatus: 'idle', agErr: '', agRef: '', sig: { name: '', email: '', business: '', engagement: 'Not sure yet', typed: '', c0: false, c1: false, c2: false }, ccMod: 'dashboard', ccStatus: [0, 1, 2, 0], ccDone: ['0-0', '0-1'], ccFaq: -1, page: null, answers: [], rot: 0, addonFilter: 'all', picked: [], errs: {}, status: 'idle',
+  state = { agTab: 'termsServices', snapFrom: '', agStatus: 'idle', agErr: '', agRef: '', agEmailed: true, sig: { name: '', email: '', business: '', engagement: 'Not sure yet', typed: '', c0: false, c1: false, c2: false }, ccMod: 'dashboard', ccStatus: [0, 1, 2, 0], ccDone: ['0-0', '0-1'], ccFaq: -1, page: null, answers: [], rot: 0, addonFilter: 'all', picked: [], errs: {}, status: 'idle',
     form: { interest: 'Free discovery call', name: '', email: '', phone: '', business: '', meeting: 'Either', method: 'Email', message: '', website: '', consent: false, c_legal: '', c_state: '', c_entity: '', c_ein: '', c_bank: '', c_sell: '', c_license: '', c_insurance: '', c_pages: '', c_products: '', c_tax: '', c_tm: '' } };
 
   ADDONS = [
@@ -1428,6 +1433,7 @@ class Component extends DCLogic {
       agEngagements: ['Not sure yet', 'P.E.S. Reality Check', 'Foundation Builder', 'P.E.S. Business Launch', 'Career Command Center', 'À la carte add-ons'].map(v => ({ v })),
       agToday: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       agErr: st.agErr, agRef: st.agRef,
+      agCopySent: st.agEmailed, agCopyFailed: !st.agEmailed,
       agNotSigned: st.agStatus !== 'signed', agSigned: st.agStatus === 'signed',
       agBtnDisabled: draft || st.agStatus === 'sending',
       agBtnLabel: draft ? 'Signing opens soon' : st.agStatus === 'sending' ? 'Signing…' : 'Sign agreement',
@@ -1517,7 +1523,7 @@ class Component extends DCLogic {
         body: JSON.stringify({ name: s.name.trim(), email: s.email.trim(), business: s.business.trim(), engagement: s.engagement, typed: s.typed.trim(), consents: [s.c0, s.c1, s.c2], documents: docs }) });
       const j = await r.json().catch(() => ({}));
       if (!r.ok || !j.ok) throw new Error('x');
-      this.setState({ agStatus: 'signed', agRef: j.ref || '' });
+      this.setState({ agStatus: 'signed', agRef: j.ref || '', agEmailed: j.emailed !== false });
     } catch (_) { this.setState({ agStatus: 'idle', agErr: 'That didn\'t go through. Try again, or email beconsultingsolutions@gmail.com.' }); }
   }
   snapQs(seg) {

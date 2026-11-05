@@ -45,8 +45,11 @@ export default async (request, context) => {
 
   // Delivery status lives beside the signature (record_hash covers the signature fields only),
   // so a failed copy can be found and resent by its reference.
+  // Best effort: the signature is already stored, so a failure here must not turn it into a
+  // failed request (the signer would retry and create a second signature).
   const notified = { signer: signerSent, owner: ownerSent, at: new Date().toISOString() };
-  await agreementStore().setJSON(ref, { ...record, notified });
+  try { await agreementStore().setJSON(ref, { ...record, notified }); }
+  catch (err) { console.error('could not store notification status', ref, String(err).slice(0, 200)); }
 
   // The signature is valid either way; tell the signer honestly whether their copy went out.
   return json(200, { ok: true, ref, emailed: signerSent });
