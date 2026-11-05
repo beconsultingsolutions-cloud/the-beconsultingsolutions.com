@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit review settings for a site deployed on Netlify.
+language: en-US
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/.netlify/**"
+    - "!**/package-lock.json"
+    - "!**/*.lock"
+  path_instructions:
+    - path: "netlify.toml"
+      instructions: >-
+        Check redirects and headers: flag missing security headers (CSP, X-Frame-Options,
+        Referrer-Policy), redirects that could open-redirect, and any secret or API key
+        written into the file instead of Netlify environment variables.
+    - path: "**/*.{js,jsx,ts,tsx}"
+      instructions: >-
+        Flag secrets or service-role keys shipped to the browser, unvalidated user input,
+        and calls to third-party APIs made from client code that should go through a function.
+chat:
+  auto_reply: true
