@@ -60,7 +60,7 @@
         <sc-for list="{{ nav }}" as="item" hint-placeholder-count="6">
           <button onClick="{{ item.go }}" style="all: unset; cursor: pointer; font-family: var(--font-mono-label); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--foreground); padding: 0.375rem 0; border-bottom: 3px solid {{ item.bar }}; transition: color .2s;" style-hover="color: var(--brand-purple);">{{ item.label }}</button>
         </sc-for>
-        <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" on-click="{{ goContact }}" hint-size="170px,36px">Book a free call</x-import>
+        <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" on-click="{{ goStart }}" hint-size="130px,36px">Start here</x-import>
       </nav>
     </div>
   </header>
@@ -88,7 +88,7 @@
             <span data-reveal="360" style="display: block; width: 7rem; height: 3px; background: var(--brand-lime); margin-top: 1.75rem;"></span>
             <p data-reveal="420" style="margin: 1.75rem 0 0; font-size: 1.125rem; line-height: 1.6; color: #fff; text-wrap: pretty;">We sit beside you, find where things stall, and build the systems and offers that let your business grow past you. Plans that get built, systems that get used, and results you can measure.</p>
             <div data-reveal="540" style="margin-top: 2.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem;">
-              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="secondary" size="lg" on-click="{{ goContact }}" hint-size="230px,40px">Book a free discovery call</x-import>
+              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="secondary" size="lg" on-click="{{ goStart }}" hint-size="230px,40px">Start your free intake</x-import>
               <button onClick="{{ goFinder }}" style="all: unset; cursor: pointer; font-size: 0.9375rem; font-weight: 500; color: #fff; border-bottom: 1px solid var(--brand-lavender); padding-bottom: 2px;" style-hover="border-color: var(--brand-lime);">Not sure yet? Find your mode →</button>
             </div>
             <p data-reveal="660" class="eyebrow-wide" style="margin: clamp(3rem, 7vw, 5rem) 0 0; color: var(--brand-lavender); font-size: 0.8125rem;"><span style="color: var(--brand-lavender);">Plan</span> · <span style="color: var(--brand-lime);">Evolve</span> · <span style="color: #fff;">Succeed</span></p>
@@ -172,7 +172,7 @@
           </sc-for>
         </div>
         <div data-reveal="300" style="margin-top: 2rem;">
-          <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" size="lg" on-click="{{ goContact }}" hint-size="230px,40px">Book a free discovery call</x-import>
+          <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" size="lg" on-click="{{ goStart }}" hint-size="230px,40px">Start your free intake</x-import>
         </div>
       </section>
 
@@ -443,7 +443,7 @@
             <p class="becs-caption" style="margin: 0.25rem 0 0;">90-minute diagnostic · written findings included</p>
             <div style="margin-top: 1.5rem; display: grid; gap: 0.5rem;">
               <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" size="lg" on-click="{{ goContactRc }}" hint-size="100%,40px">Request a Reality Check</x-import>
-              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="ghost" on-click="{{ goContact }}" hint-size="100%,36px">Start with a free call instead</x-import>
+              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="ghost" on-click="{{ goStart }}" hint-size="100%,36px">Start with a free intake instead</x-import>
             </div>
           </div>
         </aside>
@@ -1085,7 +1085,7 @@
               <p style="margin: 0.25rem 0 0; font-family: var(--font-display); font-size: 1.875rem; letter-spacing: 0.02em; text-transform: uppercase;">{{ result.tier }}</p>
               <p style="margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--muted-foreground);">Not a sales pitch. It's where we'd begin. We'll confirm it together on a free call.</p>
               <div style="margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 0.75rem;">
-                <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" on-click="{{ result.go }}" hint-size="170px,36px">Book a free call</x-import>
+                <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" on-click="{{ result.go }}" hint-size="190px,36px">Start your free intake</x-import>
                 <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="outline" on-click="{{ goServices }}" hint-size="150px,36px">See the tiers</x-import>
                 <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="ghost" on-click="{{ restart }}" hint-size="100px,36px">Start over</x-import>
               </div>
@@ -1096,6 +1096,35 @@
     </sc-if>
 
     <!-- ============ CONTACT ============ -->
+    <sc-if value="{{ isStart }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="Start here" style="max-width: 72rem; margin: 0 auto; padding: clamp(3.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2rem);">
+        <div data-reveal="0">
+          <x-import component-from-global-scope="BECSDesignSystem_24a107.SectionShell" eyebrow="Step 1 of 2" title="Pick the intake that fits you" hint-size="100%,110px"></x-import>
+        </div>
+        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1.5rem;">
+          <div data-reveal="100" class="becs-card" style="padding: 1.75rem; display: grid; gap: 0.875rem; align-content: start;">
+            <p class="eyebrow" style="margin: 0; color: var(--brand-purple);">Business owners</p>
+            <h2 class="heading-3" style="margin: 0; font-size: 1.625rem;">Business intake</h2>
+            <p style="margin: 0; font-size: 0.9375rem; color: var(--muted-foreground); text-wrap: pretty;">For founders and small businesses: operations, systems, compliance and growth.</p>
+            <p class="becs-label" style="margin: 0;">About 10 minutes</p>
+            <div style="margin-top: 0.5rem;"><x-import component-from-global-scope="BECSDesignSystem_24a107.Button" size="lg" on-click="{{ goIntakeBiz }}" hint-size="100%,40px">Start business intake</x-import></div>
+          </div>
+          <div data-reveal="180" class="becs-card" style="padding: 1.75rem; display: grid; gap: 0.875rem; align-content: start;">
+            <p class="eyebrow" style="margin: 0; color: var(--brand-purple);">Beauty &amp; wellness</p>
+            <h2 class="heading-3" style="margin: 0; font-size: 1.625rem;">Beauty &amp; wellness intake</h2>
+            <p style="margin: 0; font-size: 0.9375rem; color: var(--muted-foreground); text-wrap: pretty;">For salons, spas, stylists, estheticians and wellness practices.</p>
+            <p class="becs-label" style="margin: 0;">About 10 minutes</p>
+            <div style="margin-top: 0.5rem;"><x-import component-from-global-scope="BECSDesignSystem_24a107.Button" size="lg" on-click="{{ goIntakeBeauty }}" hint-size="100%,40px">Start beauty &amp; wellness intake</x-import></div>
+          </div>
+        </div>
+        <ol data-reveal="240" style="margin: 2.5rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid var(--border); list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.25rem;">
+          <li style="display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.75rem;"><span style="font-family: var(--font-display); font-size: 1.75rem; line-height: 1; color: var(--brand-purple);">1</span><span style="font-size: 0.9375rem;">Fill out your intake. Brandon reads every one personally.</span></li>
+          <li style="display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.75rem;"><span style="font-family: var(--font-display); font-size: 1.75rem; line-height: 1; color: var(--brand-purple);">2</span><span style="font-size: 0.9375rem;">Book your free 30-minute Clarity Call from the thank-you screen.</span></li>
+          <li style="display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.75rem;"><span style="font-family: var(--font-display); font-size: 1.75rem; line-height: 1; color: var(--brand-purple);">3</span><span style="font-size: 0.9375rem;">Leave the call with a clear first step, even if that's not us.</span></li>
+        </ol>
+        <p data-reveal="300" style="margin: 2rem 0 0; font-size: 0.9375rem;">Just have a quick question? <a href="/contact" onClick="{{ goContactLink }}">Send a message</a> or call <a href="tel:+13125353466">312.535.3466</a>.</p>
+      </section>
+    </sc-if>
     <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
       <section data-screen-label="Contact" style="max-width: 72rem; margin: 0 auto; padding: clamp(3.5rem, 7vw, 5rem) clamp(1.25rem, 4vw, 2rem); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: clamp(2rem, 5vw, 4rem); align-items: start;">
         <div>
@@ -1238,9 +1267,9 @@
             <p class="eyebrow-wide" style="margin: 0; color: var(--brand-lime); font-size: 0.8125rem;">Next step</p>
             <h2 class="display-hero" style="margin: 0.75rem 0 0; color: #fff; font-size: clamp(3rem, 7vw, 5rem);">Let's begin.</h2>
             <span style="display: block; width: 3rem; height: 3px; background: var(--brand-lime); margin-top: 1.25rem;"></span>
-            <p style="margin: 1.25rem 0 0; max-width: 34rem; color: #fff; font-size: 1.0625rem; text-wrap: pretty;">Book a free discovery call. We'll talk through where you are and recommend the right starting point, even if that's not us.</p>
+            <p style="margin: 1.25rem 0 0; max-width: 34rem; color: #fff; font-size: 1.0625rem; text-wrap: pretty;">Start with a short intake, then book your free Clarity Call. We'll talk through where you are and recommend the right starting point, even if that's not us.</p>
             <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem;">
-              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="secondary" size="lg" on-click="{{ goContact }}" hint-size="230px,40px">Book a free discovery call</x-import>
+              <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="secondary" size="lg" on-click="{{ goStart }}" hint-size="230px,40px">Start your free intake</x-import>
               <a href="tel:+13125353466" style="color: #fff; font-family: var(--font-mono-label); font-size: 0.8125rem; letter-spacing: 0.12em;">312.535.3466</a>
             </div>
             <p class="eyebrow-wide" style="margin: 2.5rem 0 0; color: var(--brand-lavender); font-size: 0.75rem;"><span style="color: var(--brand-lavender);">Plan</span> · <span style="color: var(--brand-lime);">Evolve</span> · <span style="color: #fff;">Succeed</span></p>
@@ -1390,7 +1419,7 @@ class Component extends DCLogic {
     this.animate();
   }
 
-  ROUTES = { home:'/', services:'/services', compliance:'/compliance-standard', snapshot:'/compliance-snapshot', pes:'/pes-framework', reality:'/reality-check', cases:'/case-studies', about:'/about', career:'/career-command-center', agreement:'/agreement', finder:'/mode-finder', contact:'/contact' };
+  ROUTES = { home:'/', services:'/services', compliance:'/compliance-standard', snapshot:'/compliance-snapshot', pes:'/pes-framework', reality:'/reality-check', cases:'/case-studies', about:'/about', career:'/career-command-center', agreement:'/agreement', finder:'/mode-finder', contact:'/contact', start:'/start' };
   META = {
     home: ['Operational consulting for owners ready to stop improvising', 'The B.E. Consulting Solutions helps founders, small business owners, coaches and creatives build real systems, scalable offers and growth that lasts with the P.E.S. framework: Plan. Evolve. Succeed. Virtual nationwide; in person across Chicago, Milwaukee and Northern Illinois.'],
     services: ['Service tiers & à la carte add-ons', 'Three ways to work together: the P.E.S. Reality Check, Foundation Builder and P.E.S. Business Launch, plus à la carte add-ons for messaging, brand, offers, operations and visibility.'],
@@ -1403,6 +1432,7 @@ class Component extends DCLogic {
     career: ['Career Command Center · Run your job search like an operation', 'A ten-module career portal for professionals who keep their day job while landing the next role: strategy, resumes, LinkedIn, employer targets, application tracker, interview prep, outreach and a 30-60-90 roadmap.'],
     agreement: ['Terms, privacy & client agreement', 'Terms & Conditions, Privacy Notice and the Client Services Agreement for The B.E. Consulting Solutions, with secure electronic signature.'],
     finder: ['P.E.S. Mode Finder', 'Four quick questions to find your P.E.S. mode, Plan, Evolve or Succeed, and where it makes sense to start. No email required.'],
+    start: ['Start here · Free intake and Clarity Call', 'Start with a short intake, then book a free 30-minute Clarity Call with Brandon Ellis Bynum. Business owners and beauty & wellness professionals.'],
     contact: ['Contact · Book a free discovery call', 'Book a free discovery call with Brandon Ellis Bynum. Serving the US virtually, and in person across Chicago, Milwaukee and Northern Illinois. Call 312.535.3466.']
   };
   applyMeta(page) {
@@ -1719,6 +1749,7 @@ class Component extends DCLogic {
       agreement: { eyebrow:'Legal', title:'Terms, privacy & your agreement.', intro:'Read the documents that cover this site and every engagement, then sign your client agreement online. It takes about two minutes.', img:U('1499951360447-b19be8fe80f5'), alt:'A clean workspace with a laptop and monitor' },
       cases: { eyebrow:'Case studies · P.E.S. in action', title:'Built in the open.', intro:'Real BECS builds, each shown the same way: the opportunity, then Plan, Evolve and Succeed. Pick one to read the full story.', img:U('1521737604893-d14cc237f11d'), alt:'A small team working together on laptops around a table' },
       finder: { eyebrow:'P.E.S. Mode Finder', title:'Find your mode.', intro:'Four quick questions. We\'ll point you to where it makes sense to start. No email required.', img:U('1499951360447-b19be8fe80f5'), alt:'A clean workspace with a laptop and monitor' },
+      start: { eyebrow:'Start here', title:'Your first step.', intro:'Fill out a short intake so Brandon can prepare. When you finish, you can book your free 30-minute Clarity Call right away.', img:U('1454165804606-c3d57bc86b40'), alt:'Two people reviewing handwritten notes beside laptops during a business review' },
       contact: { eyebrow:'Contact', title:'Let\'s talk.', intro:'Tell us where you are and where you want to go. Brandon reads every message and replies personally.', img:U('1600880292203-757bb62b4baf'), alt:'A business owner and consultant high-five across a desk after a planning session' }
     };
 
@@ -1740,7 +1771,7 @@ class Component extends DCLogic {
     }
 
     tiers.forEach(t => { t.go = () => this.contactWith(t.name); });
-    result = { ...result, go: () => this.contactWith(result.tier) };
+    result = { ...result, go: () => this.go('start') };
 
     const picked = this.state.picked;
     const filt = this.state.addonFilter;
@@ -1775,7 +1806,9 @@ class Component extends DCLogic {
       progressRef: this.progressRef,
       nav, phases, tiers,
       rotWord: words[this.state.rot % words.length],
-      goHome: g('home'), goServices: g('services'), goPes: g('pes'), goFinder: g('finder'), goContact: g('contact'),
+      goHome: g('home'), goServices: g('services'), goPes: g('pes'), goFinder: g('finder'), goContact: g('contact'), goStart: g('start'), goContactLink: e => { if (e && e.preventDefault) e.preventDefault(); this.go('contact'); },
+      goIntakeBiz: () => { location.href = 'https://becs-intake.be-consulting-solutions.workers.dev/business/'; },
+      goIntakeBeauty: () => { location.href = 'https://becs-intake.be-consulting-solutions.workers.dev/beauty-wellness/'; },
       goContactRc: () => this.contactWith('P.E.S. Reality Check'),
       goAddons: () => { this.go('services'); },
       addonGroups, addonFilters,
@@ -1813,7 +1846,7 @@ class Component extends DCLogic {
       snapNotSent: st !== 'sent' && st !== 'mailto', snapSent: st === 'sent' || st === 'mailto',
       snapLabel: st === 'sending' ? 'Sending…' : 'Send my snapshot',
       snapQs: this.snapQs(seg), isCareer: page === 'career',
-      ...this.ccVals(), isFinder: page === 'finder', isContact: page === 'contact',
+      ...this.ccVals(), isFinder: page === 'finder', isContact: page === 'contact', isStart: page === 'start',
       showCta: page !== 'contact',
       mast: masts[page] || masts.services,
       problems: stagger([
