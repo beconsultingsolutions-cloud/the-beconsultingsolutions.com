@@ -74,7 +74,7 @@ After launch, submit `https://thebeconsultingsolution.com/sitemap.xml` in Google
 ## Google Business Profile checklist
 Keep the business name, phone and website **exactly** the same everywhere:
 - **Name:** The B.E. Consulting Solutions
-- **Phone:** (312) 535-3466
+- **Phone:** (979) 637-8453
 - **Website:** https://thebeconsultingsolution.com
 - **Category:** Business management consultant. Secondary: Consultant, Marketing consultant.
 - **Service-area business:** hide your street address. Service areas: Chicago IL, Milwaukee WI, Lake County IL, McHenry County IL, Cook County IL, Kenosha WI.

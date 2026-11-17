@@ -55,7 +55,7 @@ export default async (request, context) => {
     subject: `We got your message · ${d.interest}`,
     html: emailHtml({ kicker: 'The B.E. Consulting Solutions', title: `Thanks, ${d.name.split(' ')[0]}.`, intro: `We received your request about ${d.interest}. Here's what happens next. If anything changes, just reply to this email.`, steps: n.client,
       rows: [['Your request', d.interest], ['Meeting preference', d.meeting || 'Either'], ['We\'ll reach you by', d.preferred_contact || 'Email']] }),
-    text: [`Thanks, ${d.name}.`, '', `We received your request about ${d.interest}.`, '', 'What happens next:', ...n.client.map((s, i) => `${i + 1}. ${s}`), '', 'The B.E. Consulting Solutions · 312.535.3466'].join('\n')
+    text: [`Thanks, ${d.name}.`, '', `We received your request about ${d.interest}.`, '', 'What happens next:', ...n.client.map((s, i) => `${i + 1}. ${s}`), '', 'The B.E. Consulting Solutions · 979.637.8453'].join('\n')
   }).catch(() => {});
 
   if (env('CRM_WEBHOOK_URL')) {
