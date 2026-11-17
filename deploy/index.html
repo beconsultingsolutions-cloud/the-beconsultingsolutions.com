@@ -1085,7 +1085,7 @@
               <p style="margin: 0.25rem 0 0; font-family: var(--font-display); font-size: 1.875rem; letter-spacing: 0.02em; text-transform: uppercase;">{{ result.tier }}</p>
               <p style="margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--muted-foreground);">Not a sales pitch. It's where we'd begin. We'll confirm it together on a free call.</p>
               <div style="margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 0.75rem;">
-                <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" on-click="{{ result.go }}" hint-size="170px,36px">Book a free call</x-import>
+                <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" on-click="{{ result.go }}" hint-size="190px,36px">Start your free intake</x-import>
                 <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="outline" on-click="{{ goServices }}" hint-size="150px,36px">See the tiers</x-import>
                 <x-import component-from-global-scope="BECSDesignSystem_24a107.Button" variant="ghost" on-click="{{ restart }}" hint-size="100px,36px">Start over</x-import>
               </div>
@@ -1771,7 +1771,7 @@ class Component extends DCLogic {
     }
 
     tiers.forEach(t => { t.go = () => this.contactWith(t.name); });
-    result = { ...result, go: () => this.contactWith(result.tier) };
+    result = { ...result, go: () => this.go('start') };
 
     const picked = this.state.picked;
     const filt = this.state.addonFilter;
