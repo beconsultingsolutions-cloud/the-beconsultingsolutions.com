@@ -78,7 +78,7 @@ ${intro ? `<p style="margin:0 0 18px;font:15px/1.6 Arial,sans-serif;color:#2D2A5
 ${r ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${r}</table>` : ''}
 ${s ? `<div style="margin:24px 0 10px;font:600 12px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#2B287E">${esc(stepsTitle)}</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${s}</table>` : ''}
 </td></tr>
-<tr><td style="padding:18px 28px;background:#2D2A5F;font:12px/1.6 Arial,sans-serif;color:#C9C7EE">${footer || 'The B.E. Consulting Solutions · 312.535.3466 · beconsultingsolutions@gmail.com<br><span style="letter-spacing:.2em;text-transform:uppercase"><span style="color:#9B98D8">Plan</span> · <span style="color:#8DC63F">Evolve</span> · <span style="color:#fff">Succeed</span></span>'}</td></tr>
+<tr><td style="padding:18px 28px;background:#2D2A5F;font:12px/1.6 Arial,sans-serif;color:#C9C7EE">${footer || 'The B.E. Consulting Solutions · 979.637.8453 · beconsultingsolutions@gmail.com<br><span style="letter-spacing:.2em;text-transform:uppercase"><span style="color:#9B98D8">Plan</span> · <span style="color:#8DC63F">Evolve</span> · <span style="color:#fff">Succeed</span></span>'}</td></tr>
 </table></body></html>`;
 }
 
