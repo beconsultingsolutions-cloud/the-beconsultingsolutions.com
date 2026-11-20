@@ -1,2 +1,9 @@
 # Local Netlify folder
 .netlify
+
+# Local secrets: never commit
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
